@@ -57,7 +57,7 @@ def clean_retail_data(spark, input_path):
 
     # Save as Parquet
     df.write.mode("overwrite").parquet(os.path.join(PROCESSED_DIR, "cleaned_retail_data.parquet"))
-    logger.info("Saved cleaned data to Parquet format.")
+    logger.info(f"Saved cleaned data to Parquet format. Saved {final_count} rows from the original dataset.")
 
     return df
 
