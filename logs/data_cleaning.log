@@ -1,0 +1,3 @@
+2026-06-05 05:21:06,816 - INFO - Starting data cleaning for: /workspaces/PySpark-and-MLlib-project/scripts/../data/raw_data/Online_Retail.csv
+2026-06-05 05:21:07,735 - ERROR - An error occurred during processing: getSubject is not supported
+2026-06-05 05:21:08,295 - INFO - Spark session stopped.
