@@ -1,0 +1,7 @@
+2026-06-05, 00:20 EDT, KJN
+
+File: raw_data/Online Retail.csv
+Total Rows: 541910
+Key Features: InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country
+Issues Identified: 135080 missing cells; no negatives in Quantity...
+Planned Transformations: ...
