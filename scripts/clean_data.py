@@ -8,7 +8,7 @@ from pyspark.sql.functions import col
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
 
-DATA_PATH = os.path.join(SCRIPT_DIR, '../data/raw_data/Online_Retail.csv')
+DATA_PATH = os.path.join(SCRIPT_DIR, '../data/raw_data/Online Retail.csv')
 os.makedirs(LOG_DIR, exist_ok=True)
 
 PROCESSED_DIR = os.path.join(SCRIPT_DIR, '../data/processed_data')

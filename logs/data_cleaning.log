@@ -1,3 +1,10 @@
 2026-06-05 05:21:06,816 - INFO - Starting data cleaning for: /workspaces/PySpark-and-MLlib-project/scripts/../data/raw_data/Online_Retail.csv
 2026-06-05 05:21:07,735 - ERROR - An error occurred during processing: getSubject is not supported
 2026-06-05 05:21:08,295 - INFO - Spark session stopped.
+2026-06-05 05:29:28,921 - INFO - Starting data cleaning for: /workspaces/PySpark-and-MLlib-project/scripts/../data/raw_data/Online_Retail.csv
+2026-06-05 05:29:30,099 - ERROR - An error occurred during processing: [PATH_NOT_FOUND] Path does not exist: file:/workspaces/PySpark-and-MLlib-project/data/raw_data/Online_Retail.csv. SQLSTATE: 42K03
+2026-06-05 05:29:30,812 - INFO - Spark session stopped.
+2026-06-05 05:32:19,063 - INFO - Starting data cleaning for: /workspaces/PySpark-and-MLlib-project/scripts/../data/raw_data/Online Retail.csv
+2026-06-05 05:32:36,935 - INFO - Data cleaning complete. Dropped 149178 rows.
+2026-06-05 05:32:46,937 - INFO - Saved cleaned data to Parquet format.
+2026-06-05 05:32:51,074 - INFO - Spark session stopped.
