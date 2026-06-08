@@ -1,0 +1,27 @@
+2026-06-08 23:27:01,417 - INFO - Preparing data for Elbow Method...
+2026-06-08 23:27:03,276 - ERROR - Error during elbow method execution: getSubject is not supported
+2026-06-08 23:27:03,790 - INFO - Spark session stopped.
+2026-06-08 23:27:46,898 - INFO - Preparing data for Elbow Method...
+2026-06-08 23:27:47,787 - ERROR - Error during elbow method execution: getSubject is not supported
+2026-06-08 23:27:48,101 - INFO - Spark session stopped.
+2026-06-08 23:28:12,549 - INFO - Preparing data for Elbow Method...
+2026-06-08 23:28:13,413 - ERROR - Error during elbow method execution: getSubject is not supported
+2026-06-08 23:28:13,880 - INFO - Spark session stopped.
+2026-06-08 23:37:53,496 - INFO - Preparing data for Elbow Method...
+2026-06-08 23:38:00,279 - INFO - Calculating WCSS for k=2 to 10...
+2026-06-08 23:38:05,822 - INFO - k=2, WCSS=8988.651754074306
+2026-06-08 23:38:08,131 - INFO - k=3, WCSS=5445.678732531141
+2026-06-08 23:38:10,084 - INFO - k=4, WCSS=4038.463094245664
+2026-06-08 23:38:12,036 - INFO - k=5, WCSS=2960.2687056072537
+2026-06-08 23:38:14,216 - INFO - k=6, WCSS=2373.81667750682
+2026-06-08 23:38:15,796 - INFO - k=7, WCSS=2387.9474645353844
+2026-06-08 23:38:16,990 - INFO - k=8, WCSS=1739.5379230928745
+2026-06-08 23:38:18,976 - INFO - k=9, WCSS=1524.9449031053853
+2026-06-08 23:38:20,460 - INFO - k=10, WCSS=1428.5554133591113
+2026-06-08 23:38:20,791 - INFO - Elbow plot saved to /workspaces/PySpark-and-MLlib-project/scripts/../data/clusters/elbow_method.html
+2026-06-08 23:38:20,791 - INFO - Calculating Optimal k from Elbow Method data...
+2026-06-08 23:38:20,793 - INFO - Automatically detected Optimal k: 5
+2026-06-08 23:38:20,794 - INFO - Loading RFM features for clustering...
+2026-06-08 23:38:20,794 - INFO - Training K-Means model...
+2026-06-08 23:38:24,301 - INFO - Clustering complete. Full results saved.
+2026-06-08 23:38:24,810 - INFO - Spark session stopped.

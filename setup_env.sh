@@ -13,6 +13,7 @@ sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
 echo "Setting JAVA_HOME..."
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
+unset PYSPARK_SUBMIT_ARGS
 
 echo "Environment setup complete. Java version:"
 java -version

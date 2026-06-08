@@ -7,6 +7,9 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.clustering import KMeans
 
 # Paths
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
+os.environ["PYSPARK_SUBMIT_ARGS"] = "--master local[*] pyspark-shell"
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
 FEATURE_PATH = os.path.join(SCRIPT_DIR, '../data/features/rfm_features.parquet')
