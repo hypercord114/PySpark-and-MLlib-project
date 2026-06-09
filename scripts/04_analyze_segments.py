@@ -1,6 +1,6 @@
 import os
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import avg, count, col
+from pyspark.sql.functions import avg, count, col, when
 
 # Paths
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
@@ -23,7 +23,15 @@ def generate_bi_data(spark):
         count("CustomerID").alias("Customer_Count")
     )
 
-    # 2. Save both for Power BI
+    # 2. Add 'Segment_Label' using PySpark's conditional logic
+    labeled_summary = summary_df.withColumn(
+        "Segment_Label",
+        when((col("Avg_Recency") < 30) & (col("Avg_Frequency") > 5), "Champions")
+        .when(col("Avg_Recency") > 90, "At Risk")
+        .otherwise("Standard")
+    )
+
+    # 3. Save both for Power BI
     summary_df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "segment_summary.parquet"))
     # Keep the raw data for 'drill-down' features in Power BI
     df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "customer_drilldown.parquet"))
