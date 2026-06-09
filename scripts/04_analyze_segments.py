@@ -3,6 +3,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import avg, count, col
 
 # Paths
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
+os.environ["PYSPARK_SUBMIT_ARGS"] = "--master local[*] pyspark-shell"
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CLUSTER_DIR = os.path.join(SCRIPT_DIR, '../data/clusters')
 ANALYTICS_DIR = os.path.join(SCRIPT_DIR, '../data/analytics')
