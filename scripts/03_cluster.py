@@ -10,6 +10,7 @@ from pyspark.ml.clustering import KMeans
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
 os.environ["PYSPARK_SUBMIT_ARGS"] = "--master local[*] pyspark-shell"
 
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..'))
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
 FEATURE_PATH = os.path.join(SCRIPT_DIR, '../data/features/rfm_features.parquet')
@@ -58,7 +59,7 @@ def run_elbow_method(spark, input_path):
         yaxis_title='WCSS (Training Cost)'
     )
     
-    html_path = os.path.join(CLUSTER_DIR, 'elbow_method.html')
+    html_path = os.path.join(PROJECT_ROOT, 'index.html')
     fig.write_html(html_path)
     logger.info(f"Elbow plot saved to {html_path}")
 
