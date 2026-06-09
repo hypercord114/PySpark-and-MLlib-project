@@ -32,7 +32,7 @@ def generate_bi_data(spark):
     )
 
     # 3. Save both for Power BI
-    summary_df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "segment_summary.parquet"))
+    labeled_summary.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "segment_summary.parquet"))
     # Keep the raw data for 'drill-down' features in Power BI
     df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "customer_drilldown.parquet"))
 
