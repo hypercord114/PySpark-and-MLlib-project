@@ -1,0 +1,31 @@
+import os
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import avg, count, col
+
+# Paths
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CLUSTER_DIR = os.path.join(SCRIPT_DIR, '../data/clusters')
+ANALYTICS_DIR = os.path.join(SCRIPT_DIR, '../data/analytics')
+os.makedirs(ANALYTICS_DIR, exist_ok=True)
+
+def generate_bi_data(spark):
+    # Load the results from your clustering script
+    df = spark.read.parquet(os.path.join(CLUSTER_DIR, "customer_segments.parquet"))
+
+    # 1. Create Aggregated Summary for High-Level KPI cards
+    summary_df = df.groupBy("prediction").agg(
+        avg("Recency").alias("Avg_Recency"),
+        avg("Frequency").alias("Avg_Frequency"),
+        avg("Monetary").alias("Avg_Monetary"),
+        count("CustomerID").alias("Customer_Count")
+    )
+
+    # 2. Save both for Power BI
+    summary_df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "segment_summary.parquet"))
+    # Keep the raw data for 'drill-down' features in Power BI
+    df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "customer_drilldown.parquet"))
+
+if __name__ == "__main__":
+    spark = SparkSession.builder.appName("Analytics").getOrCreate()
+    generate_bi_data(spark)
+    spark.stop()
