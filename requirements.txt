@@ -1,3 +1,11 @@
-pyspark
-plotly
-numpy
+# Data Processing
+pyspark>=3.5.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# Visualization & Elbow Method
+numpy>=1.24.0
+plotly>=5.15.0
+
+# Data Collection (for the download script)
+requests>=2.31.0

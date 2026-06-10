@@ -30,6 +30,7 @@ def run_script(script_path):
 if __name__ == "__main__":
     try:
         # Define your rigid pipeline order
+        run_script("scripts/00_download_and_prep.py")
         run_script("scripts/01_clean.py")
         run_script("scripts/02_engineer.py")
         run_script("scripts/03_cluster.py")
