@@ -3,8 +3,9 @@ FROM python:3.12-slim
 
 # Install OpenJDK 17 and essential tools
 RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk && \
-    apt-get clean;
+    apt-get install -y openjdk-17-jre-headless && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set Java environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
