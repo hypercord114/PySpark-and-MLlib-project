@@ -17,3 +17,4 @@ jobs:
 
       - name: Run Pipeline
         run: docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline python3 scripts/main_orchestrator.py
+        ls -R data/
