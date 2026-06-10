@@ -1,5 +1,5 @@
 # Use a slim Linux base
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 # Install OpenJDK 17 and essential tools
 RUN apt-get update && \
