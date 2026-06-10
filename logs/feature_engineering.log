@@ -26,3 +26,7 @@
 2026-06-10 19:25:37,088 - INFO - Faux date of report calculated to be: Column<'add_months(trunc(2011-12-09 12:50:00.0, 'MM'), 1)'>
 2026-06-10 19:25:41,111 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
 2026-06-10 19:25:42,809 - INFO - Spark session stopped.
+2026-06-10 19:33:03,118 - INFO - Loading cleaned data for feature engineering...
+2026-06-10 19:33:06,354 - INFO - Faux date of report calculated to be: Column<'add_months(trunc(2011-12-09 12:50:00.0, 'MM'), 1)'>
+2026-06-10 19:33:08,082 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-10 19:33:08,932 - INFO - Spark session stopped.
