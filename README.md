@@ -23,4 +23,4 @@ the data is then analyzed for a dashboard, saved to disk and displayed on a Stre
 
 as stated above, i will go on to predict churn and other metrics.
 
-for now, i have achieved the goal of getting this pipeline streamlined into a unified pipeline.  i still need to wrestle with this, read a bit more about how the cluster process works so i can be more eloquent with description, and smooth out automation hiccups.  for now i'm going to leave this alone.
+for now, i have achieved the goal of getting this set of scripts streamlined into a unified pipeline.  i still need to wrestle with this, read a bit more about how the cluster process works so i can be more eloquent with description, and smooth out automation hiccups.  for now i'm going to leave this alone.
