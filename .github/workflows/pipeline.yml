@@ -22,13 +22,10 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline python3 scripts/main_orchestrator.py
           ls -R data/
 
-      - name: Upload Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: pipeline-outputs
-          path: |
-            data/processed_data/
-            data/features/
-            data/clusters/
-            data/analytics/
-            logs/
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/ logs/
+          # Only commit if there are actual changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update data and logs from pipeline run" && git push)
