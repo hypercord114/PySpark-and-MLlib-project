@@ -1,7 +1,7 @@
 import os
 import logging
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, count, sum, max, datediff, current_date
+from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc
 
 # Paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -36,8 +36,13 @@ def engineer_features(spark, parquet_path):
     df = df.withColumn("TotalSpend", col("Quantity") * col("UnitPrice"))
 
     # 2. Aggregating to Customer level (RFM)
+    # * Reset date of report to first day of month following max invoice date
+    global_max_date = df.select(max("InvoiceDate")).collect()[0][0]
+    following_month_global = add_months(trunc(lit(global_max_date), "MM"), 1)
+    logger.info(f"Faux date of report calculated to be: {following_month_global}")
+
     rfm_df = df.groupBy("CustomerID").agg(
-        datediff(current_date(), max("InvoiceDate")).alias("Recency"),
+        datediff(following_month_global, max("InvoiceDate")).alias("Recency"),
         count("InvoiceNo").alias("Frequency"),
         sum("TotalSpend").alias("Monetary")
     )
