@@ -1,6 +1,13 @@
 name: Data Pipeline
 
+<<<<<<< HEAD
 on: [push]
+=======
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+>>>>>>> d46ca67d661c926fa4da7660687f9f5fdc43073f
 
 jobs:
   run-pipeline:
@@ -13,7 +20,12 @@ jobs:
         run: docker build -t rfm-pipeline .
 
       - name: Run Pipeline
+<<<<<<< HEAD
         run: |
           # Use set -x to debug execution
           set -x
           docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline
+=======
+        run: docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline python3 scripts/main_orchestrator.py
+        ls -R data/
+>>>>>>> d46ca67d661c926fa4da7660687f9f5fdc43073f
