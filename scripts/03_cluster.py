@@ -55,7 +55,7 @@ def run_elbow_method(spark, input_path):
         yaxis_title='WCSS (Training Cost)'
     )
     
-    html_path = os.path.join(PROJECT_ROOT, 'index.html')
+    html_path = os.path.join(BASE_DIR, 'index.html')
     fig.write_html(html_path)
     logger.info(f"Elbow plot saved to {html_path}")
 
