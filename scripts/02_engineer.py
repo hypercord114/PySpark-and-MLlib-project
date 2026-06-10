@@ -4,10 +4,10 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc
 
 # Paths
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
-PROCESSED_PATH = os.path.join(SCRIPT_DIR, '../data/processed_data/cleaned_retail_data.parquet')
-FEATURE_DIR = os.path.join(SCRIPT_DIR, '../data/features')
+BASE_DIR = "/app"
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+PROCESSED_PATH = os.path.join(BASE_DIR, "data/processed_data/cleaned_retail_data.parquet")
+FEATURE_DIR = os.path.join(BASE_DIR, "data/features")
 
 # Create directories
 os.makedirs(LOG_DIR, exist_ok=True)

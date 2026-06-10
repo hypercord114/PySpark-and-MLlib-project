@@ -3,8 +3,16 @@ import subprocess
 import logging
 
 # Ensure logs directory exists
-LOG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../logs')
+BASE_DIR = "/app"
+
+# Now define all other paths relative to the absolute base
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+DATA_DIR = os.path.join(BASE_DIR, "data")
+RAW_DATA_DIR = os.path.join(DATA_DIR, "raw_data")
+
+# Ensure directories exist
 os.makedirs(LOG_DIR, exist_ok=True)
+os.makedirs(RAW_DATA_DIR, exist_ok=True)
 
 # Configure logging to write to both console and file
 logger = logging.getLogger("Orchestrator")
@@ -31,7 +39,7 @@ if __name__ == "__main__":
     try:
         # Define your rigid pipeline order
         run_script("scripts/00_download_and_prep.py")
-        run_script("scripts/01_clean.py")
+        run_script("scripts/01_clean_data.py")
         run_script("scripts/02_engineer.py")
         run_script("scripts/03_cluster.py")
         run_script("scripts/04_analyze_segments.py")

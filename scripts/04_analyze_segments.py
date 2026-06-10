@@ -3,9 +3,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import avg, count, col, when
 
 # Paths
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-CLUSTER_DIR = os.path.join(SCRIPT_DIR, '../data/clusters')
-ANALYTICS_DIR = os.path.join(SCRIPT_DIR, '../data/analytics')
+BASE_DIR = "/app"
+CLUSTER_DIR = os.path.join(BASE_DIR, "data/clusters")
+ANALYTICS_DIR = os.path.join(BASE_DIR, "data/analytics")
 os.makedirs(ANALYTICS_DIR, exist_ok=True)
 
 def generate_bi_data(spark):

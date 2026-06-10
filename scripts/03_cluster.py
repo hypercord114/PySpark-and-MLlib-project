@@ -7,11 +7,10 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.clustering import KMeans
 
 # Paths
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..'))
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
-FEATURE_PATH = os.path.join(SCRIPT_DIR, '../data/features/rfm_features.parquet')
-CLUSTER_DIR = os.path.join(SCRIPT_DIR, '../data/clusters')
+BASE_DIR = "/app"
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+FEATURE_PATH = os.path.join(BASE_DIR, "data/features/rfm_features.parquet")
+CLUSTER_DIR = os.path.join(BASE_DIR, "data/clusters")
 os.makedirs(CLUSTER_DIR, exist_ok=True)
 os.makedirs(LOG_DIR, exist_ok=True)
 

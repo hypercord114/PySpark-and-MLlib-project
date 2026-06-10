@@ -5,13 +5,13 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType, 
 from pyspark.sql.functions import col
 
 # Setting paths
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
+BASE_DIR = "/app"
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+DATA_PATH = os.path.join(BASE_DIR, "data/raw_data/Online Retail.csv")
+PROCESSED_DIR = os.path.join(BASE_DIR, "data/processed_data")
 
-DATA_PATH = os.path.join(SCRIPT_DIR, '../data/raw_data/Online Retail.csv')
+# Create directories if they don't exist
 os.makedirs(LOG_DIR, exist_ok=True)
-
-PROCESSED_DIR = os.path.join(SCRIPT_DIR, '../data/processed_data')
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
 # Configure logging to write to a file AND terminal
