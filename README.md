@@ -11,13 +11,13 @@ https://hypercord114.github.io/PySpark-and-MLlib-project/
 
 i will write a better description of what is going on here soon, but i'm not quite finished with the entire process yet.
 
-essentially, i am downloading a dataset of transaction british transaction data, loading it into PySpark, cleaning the data, performing k-means clustering and feature generation.
+essentially, i am downloading a dataset of british transaction data, loading it into PySpark, cleaning the data, performing k-means clustering and feature generation.
 
 the data cleaning step removes transactions with quantity of 0 or less, which is irrelevant for assessing customer loyalty, data where the customer id is null, which is likely a data error, and dropping duplicate transactions, which is another data error which would skew the analysis.
 
-additionally, because this data is a bit old and because i'm attempting to replicate a current analysis, within the feature generation logic i calculated the "Recency" vector by iterating to the first day of the subsequent month from the most recent date in the entire dataset and then calculated days passed since that date.  so, given the data the date of the analysis would be January 1st 2012 (I think...).
+additionally, because this data is a bit old and because i'm attempting to replicate a current analysis, within the feature generation logic i calculated the "Recency" vector by iterating to the first day of the subsequent month from the most recent date in the entire dataset and then calculated days passed since that global anchor date.  so, given the age of the data the date of the analysis would be January 1st 2012 (I think...).
 
-the clustering step performs the elbow method, iterating through a range of k values from 2 to 10 and calculating the training cost for each step.  the process is depicted in a .HTML linegraph that is generated.  logic is used to identify the elbow of the line, which is 4 following the reset of the Recency vector.  a model is then generated using the k-value of 4 and saved to file.
+the clustering step performs the elbow method, iterating through a range of k values from 2 to 10 and calculating the training cost for each step.  the process is depicted in a .HTML linegraph that is generated.  logic is used to identify the elbow of the line, which is 4 following reset of the Recency vector.  a model is then generated using the k-value of 4 and saved to disk.
 
 the data is then analyzed for a dashboard, saved to disk and displayed on a Streamlit dashboard with a simple descriptor about each cluster of customers.
 
