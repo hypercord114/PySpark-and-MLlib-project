@@ -19,3 +19,14 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline python3 scripts/main_orchestrator.py
           ls -R data/
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-outputs
+          path: |
+            data/processed_data/
+            data/features/
+            data/clusters/
+            data/analytics/
+            logs/
