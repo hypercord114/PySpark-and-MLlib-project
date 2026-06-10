@@ -1,0 +1,18 @@
+name: Run Data Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t rfm-pipeline .
+
+      - name: Run Pipeline
+        run: docker run --rm -v ${{ github.workspace }}:/app rfm-pipeline python3 scripts/main_orchestrator.py
