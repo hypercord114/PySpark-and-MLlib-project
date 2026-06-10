@@ -8,3 +8,7 @@
 2026-06-05 05:32:36,935 - INFO - Data cleaning complete. Dropped 149178 rows.
 2026-06-05 05:32:46,937 - INFO - Saved cleaned data to Parquet format.
 2026-06-05 05:32:51,074 - INFO - Spark session stopped.
+2026-06-10 18:25:11,014 - INFO - Starting data cleaning for: /app/data/raw_data/Online Retail.csv
+2026-06-10 18:25:16,527 - INFO - Data cleaning complete. Dropped 149178 rows.
+2026-06-10 18:25:20,152 - INFO - Saved cleaned data to Parquet format. Saved 392732 rows from the original dataset.
+2026-06-10 18:25:21,848 - INFO - Spark session stopped.
