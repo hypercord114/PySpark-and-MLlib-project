@@ -38,7 +38,8 @@ def engineer_features(spark, parquet_path):
     # 2. Aggregating to Customer level (RFM)
     # * Reset date of report to first day of month following max invoice date
     global_max_date = df.select(max("InvoiceDate")).collect()[0][0]
-    following_month_global = add_months(trunc(lit(global_max_date), "MM"), 1)
+    following_month_global_expr = add_months(trunc(lit(global_max_date), "MM"), 1)
+    following_month_global = spark.range(1).select(following_month_global_expr).collect()[0][0]
     logger.info(f"Faux date of report calculated to be: {following_month_global}")
 
     rfm_df = df.groupBy("CustomerID").agg(
