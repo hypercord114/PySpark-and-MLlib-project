@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Default command
-CMD ["python3", "scripts/03_cluster.py"]
+CMD ["python3", "scripts/main_orchestrator.py"]
