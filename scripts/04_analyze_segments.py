@@ -22,7 +22,7 @@ def generate_bi_data(spark):
         .when((col("Avg_Recency") >= 90) & (col("Avg_Frequency") < 30) & (col("Avg_Monetary") < 1000), "High R, Low F, Low M - At-Risk/Churned - Use win-back campaigns, surveys, or heavy discounts to re-engage.")
         .when((col("Avg_Recency") < 30) & (col("Avg_Frequency") < 30) & (col("Avg_Monetary") < 1000), "Low R, Low F, Low M - New Customer - Nurture them with welcome content, explain the brand value.")
         .when((col("Avg_Recency") >= 30) & (col("Avg_Frequency") >= 5) & (col("Avg_Monetary") >= 8000), "High R, High F, High M - Loyal/High Value - Keep them satisfied; personalize their experience so they stay.")
-        .otherwise("Standard")
+        .otherwise("Standard"))
     df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "labeled_customers.parquet"))
 
     # 1. Create Aggregated Summary for High-Level KPI cards
