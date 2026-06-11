@@ -17,7 +17,7 @@ if os.path.exists(summary_path):
     df = pd.read_parquet(summary_path)
     df = df.sort_values(by="customer segment", ascending=True)
     
-    st.subheader("Cluster Profiles")
+    st.subheader("Cluster Profiles (finances and executive decisions may affect segmentation classification)")
     st.dataframe(df)
 
     # Simple chart
