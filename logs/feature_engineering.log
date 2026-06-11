@@ -34,3 +34,11 @@
 2026-06-10 19:57:43,674 - INFO - Faux date of report calculated to be: Column<'add_months(trunc(2011-12-09 12:50:00.0, 'MM'), 1)'>
 2026-06-10 19:57:45,662 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
 2026-06-10 19:57:46,821 - INFO - Spark session stopped.
+2026-06-11 00:17:39,106 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 00:17:45,104 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 00:17:45,127 - ERROR - Error during feature engineering: [NOT_COLUMN_OR_STR] Argument `col` should be a Column or str, got date.
+2026-06-11 00:17:45,697 - INFO - Spark session stopped.
+2026-06-11 00:24:32,725 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 00:24:38,166 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 00:24:41,679 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 00:24:42,911 - INFO - Spark session stopped.

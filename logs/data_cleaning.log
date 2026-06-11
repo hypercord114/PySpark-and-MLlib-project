@@ -32,3 +32,11 @@
 2026-06-10 19:57:30,253 - INFO - Data cleaning complete. Dropped 149178 rows.
 2026-06-10 19:57:33,837 - INFO - Saved cleaned data to Parquet format. Saved 392732 rows from the original dataset.
 2026-06-10 19:57:35,628 - INFO - Spark session stopped.
+2026-06-11 00:17:05,286 - INFO - Starting data cleaning for: /app/data/raw_data/Online Retail.csv
+2026-06-11 00:17:17,626 - INFO - Data cleaning complete. Dropped 149178 rows.
+2026-06-11 00:17:26,767 - INFO - Saved cleaned data to Parquet format. Saved 392732 rows from the original dataset.
+2026-06-11 00:17:30,170 - INFO - Spark session stopped.
+2026-06-11 00:23:59,434 - INFO - Starting data cleaning for: /app/data/raw_data/Online Retail.csv
+2026-06-11 00:24:11,309 - INFO - Data cleaning complete. Dropped 149178 rows.
+2026-06-11 00:24:18,984 - INFO - Saved cleaned data to Parquet format. Saved 392732 rows from the original dataset.
+2026-06-11 00:24:22,478 - INFO - Spark session stopped.

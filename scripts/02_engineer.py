@@ -43,7 +43,7 @@ def engineer_features(spark, parquet_path):
     logger.info(f"Faux date of report calculated to be: {following_month_global}")
 
     rfm_df = df.groupBy("CustomerID").agg(
-        datediff(following_month_global, max("InvoiceDate")).alias("Recency"),
+        datediff(following_month_global_expr, max("InvoiceDate")).alias("Recency"),
         count("InvoiceNo").alias("Frequency"),
         sum("TotalSpend").alias("Monetary")
     )

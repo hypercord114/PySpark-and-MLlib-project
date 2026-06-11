@@ -118,3 +118,24 @@
 2026-06-10 19:58:06,290 - INFO - Training K-Means model...
 2026-06-10 19:58:07,685 - INFO - Clustering complete. Full results saved.
 2026-06-10 19:58:08,082 - INFO - Spark session stopped.
+2026-06-11 00:17:54,552 - INFO - Preparing data for Elbow Method...
+2026-06-11 00:17:55,674 - ERROR - Error during elbow method execution: [PATH_NOT_FOUND] Path does not exist: file:/app/data/features/rfm_features.parquet. SQLSTATE: 42K03
+2026-06-11 00:17:56,227 - INFO - Spark session stopped.
+2026-06-11 00:24:51,184 - INFO - Preparing data for Elbow Method...
+2026-06-11 00:24:57,534 - INFO - Calculating WCSS for k=2 to 10...
+2026-06-11 00:25:02,617 - INFO - k=2, WCSS=8988.651754074337
+2026-06-11 00:25:04,391 - INFO - k=3, WCSS=7561.134382419602
+2026-06-11 00:25:06,192 - INFO - k=4, WCSS=4031.5321511940956
+2026-06-11 00:25:08,469 - INFO - k=5, WCSS=4041.695361116942
+2026-06-11 00:25:10,396 - INFO - k=6, WCSS=2503.4166608369374
+2026-06-11 00:25:12,423 - INFO - k=7, WCSS=1930.6748412106033
+2026-06-11 00:25:14,147 - INFO - k=8, WCSS=2208.7142221531426
+2026-06-11 00:25:15,862 - INFO - k=9, WCSS=1500.560182138554
+2026-06-11 00:25:17,472 - INFO - k=10, WCSS=1385.0909858370107
+2026-06-11 00:25:18,641 - INFO - Elbow plot saved to /app/index.html
+2026-06-11 00:25:18,641 - INFO - Calculating Optimal k from Elbow Method data...
+2026-06-11 00:25:18,706 - INFO - Automatically detected Optimal k: 4
+2026-06-11 00:25:18,707 - INFO - Loading RFM features for clustering...
+2026-06-11 00:25:18,707 - INFO - Training K-Means model...
+2026-06-11 00:25:20,806 - INFO - Clustering complete. Full results saved.
+2026-06-11 00:25:21,258 - INFO - Spark session stopped.
