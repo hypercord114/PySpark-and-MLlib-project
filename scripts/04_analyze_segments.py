@@ -18,10 +18,10 @@ def generate_bi_data(spark):
     # Add Segment_Label to every individual customer record & save parquet
     df.withColumn(
         "Segment_Label",
-        when((col("Avg_Recency") < 30) & (col("Avg_Frequency") >= 5) & (col("Avg_Monetary") >= 8000), "Low R, High F, High M - Champion - Reward them, ask for referrals, give early access to new products.")
-        .when((col("Avg_Recency") >= 90) & (col("Avg_Frequency") < 30) & (col("Avg_Monetary") < 1000), "High R, Low F, Low M - At-Risk/Churned - Use win-back campaigns, surveys, or heavy discounts to re-engage.")
-        .when((col("Avg_Recency") < 30) & (col("Avg_Frequency") < 30) & (col("Avg_Monetary") < 1000), "Low R, Low F, Low M - New Customer - Nurture them with welcome content, explain the brand value.")
-        .when((col("Avg_Recency") >= 30) & (col("Avg_Frequency") >= 5) & (col("Avg_Monetary") >= 8000), "High R, High F, High M - Loyal/High Value - Keep them satisfied; personalize their experience so they stay.")
+        when((col("Recency") < 30) & (col("Frequency") >= 5) & (col("Monetary") >= 8000), "Low R, High F, High M - Champion - Reward them, ask for referrals, give early access to new products.")
+        .when((col("Recency") >= 90) & (col("Frequency") < 30) & (col("Monetary") < 1000), "High R, Low F, Low M - At-Risk/Churned - Use win-back campaigns, surveys, or heavy discounts to re-engage.")
+        .when((col("Recency") < 30) & (col("Frequency") < 30) & (col("Monetary") < 1000), "Low R, Low F, Low M - New Customer - Nurture them with welcome content, explain the brand value.")
+        .when((col("Recency") >= 30) & (col("Frequency") >= 5) & (col("Monetary") >= 8000), "High R, High F, High M - Loyal/High Value - Keep them satisfied; personalize their experience so they stay.")
         .otherwise("Standard"))
     df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "labeled_customers.parquet"))
 
