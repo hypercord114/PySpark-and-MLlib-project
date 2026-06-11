@@ -18,7 +18,7 @@ if os.path.exists(summary_path):
     df = df.sort_values(by="Customer_Segment", ascending=True)
     
     st.subheader("Customer Segment Profiles (finances and executive decisions may determine segment labels)")
-    st.dataframe(df)
+    st.dataframe(df, hide_index=True)
 
     # Simple chart
     st.subheader("Average Monetary Spend by Customer Segment")
