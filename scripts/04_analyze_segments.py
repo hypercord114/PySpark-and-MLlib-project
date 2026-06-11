@@ -9,7 +9,7 @@ ANALYTICS_DIR = os.path.join(BASE_DIR, "data/analytics")
 os.makedirs(ANALYTICS_DIR, exist_ok=True)
 
 def generate_bi_data(spark):
-    # Load the results from your clustering script
+    # Load the results from clustering script
     df = spark.read.parquet(os.path.join(CLUSTER_DIR, "customer_segments.parquet"))
 
     # Rename 'prediction' to 'customer segment'
@@ -45,7 +45,6 @@ def generate_bi_data(spark):
 
     # 3. Save both for Power BI
     labeled_summary.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "segment_summary.parquet"))
-    # Keep the raw data for 'drill-down' features in Power BI
     df.write.mode("overwrite").parquet(os.path.join(ANALYTICS_DIR, "customer_drilldown.parquet"))
 
 if __name__ == "__main__":
