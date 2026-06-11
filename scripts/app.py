@@ -22,6 +22,6 @@ if os.path.exists(summary_path):
 
     # Simple chart
     st.subheader("Average Monetary Spend by Cluster")
-    st.bar_chart(df.set_index('customer segments')['Avg_Monetary'])
+    st.bar_chart(df.set_index('customer segment')['Avg_Monetary'])
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
