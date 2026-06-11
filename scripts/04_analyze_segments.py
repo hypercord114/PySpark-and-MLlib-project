@@ -16,7 +16,7 @@ def generate_bi_data(spark):
     df = df.withColumnRenamed("prediction", "Customer_Segment")
 
     # Add Segment_Label to every individual customer record & save parquet
-    df.withColumn(
+    df = df.withColumn(
         "Segment_Label",
         when((col("Recency") < 30) & (col("Frequency") >= 5) & (col("Monetary") >= 8000), "Low R, High F, High M - Champion - Reward them, ask for referrals, give early access to new products.")
         .when((col("Recency") >= 90) & (col("Frequency") < 30) & (col("Monetary") < 1000), "High R, Low F, Low M - At-Risk/Churned - Use win-back campaigns, surveys, or heavy discounts to re-engage.")

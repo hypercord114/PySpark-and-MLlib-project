@@ -43,7 +43,7 @@ if __name__ == "__main__":
         run_script("scripts/02_engineer.py")
         run_script("scripts/03_cluster.py")
         run_script("scripts/04_analyze_segments.py")
-        run_script("scripts/05_predicts_segments.py")
+        run_script("scripts/05_predict_segments.py")
         logger.info("Pipeline completed successfully.")
     except subprocess.CalledProcessError as e:
         logger.error(f"Pipeline failed at {e.cmd}")

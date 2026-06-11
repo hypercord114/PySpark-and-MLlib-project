@@ -32,13 +32,14 @@ logger.addHandler(stream_handler)
 def train_predictor(spark):
     logger.info("Loading labeled customer data...")
     df = spark.read.parquet(LABELED_DATA)
+    df = df.select("Recency", "Frequency", "Monetary", "Segment_Label")
 
     # 1. Convert string labels to numbers
     indexer = StringIndexer(inputCol="Segment_Label", outputCol="label")
     
     # 2. Assemble and Scale features
-    assembler = VectorAssembler(inputCols=["Recency", "Frequency", "Monetary"], outputCol="features_raw")
-    scaler = StandardScaler(inputCol="features_raw", outputCol="features")
+    assembler = VectorAssembler(inputCols=["Recency", "Frequency", "Monetary"], outputCol="features_vector")
+    scaler = StandardScaler(inputCol="features_vector", outputCol="features")
 
     # 3. Define the Classifier
     rf = RandomForestClassifier(featuresCol="features", labelCol="label")

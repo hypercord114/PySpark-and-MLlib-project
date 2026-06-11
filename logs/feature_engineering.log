@@ -50,3 +50,19 @@
 2026-06-11 04:51:51,567 - INFO - Faux date of report calculated to be: 2012-01-01
 2026-06-11 04:51:55,529 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
 2026-06-11 04:51:57,072 - INFO - Spark session stopped.
+2026-06-11 05:02:14,714 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 05:02:20,343 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 05:02:23,871 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 05:02:25,442 - INFO - Spark session stopped.
+2026-06-11 05:05:50,386 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 05:05:57,019 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 05:06:00,945 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 05:06:02,293 - INFO - Spark session stopped.
+2026-06-11 05:12:37,375 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 05:12:43,624 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 05:12:47,090 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 05:12:48,361 - INFO - Spark session stopped.
+2026-06-11 05:35:13,277 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 05:35:19,649 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 05:35:23,316 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 05:35:24,588 - INFO - Spark session stopped.

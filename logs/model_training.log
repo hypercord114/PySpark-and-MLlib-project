@@ -1,0 +1,39 @@
+2026-06-11 05:07:12,787 - INFO - Loading labeled customer data...
+2026-06-11 05:07:15,323 - INFO - Splitting data for training and evaluation...
+2026-06-11 05:07:15,757 - INFO - Training Random Forest model...
+2026-06-11 05:07:15,962 - ERROR - Training failed: An error occurred while calling o32.fit.
+: org.apache.spark.SparkException: Input column Segment_Label does not exist.
+	at org.apache.spark.ml.feature.StringIndexerBase.$anonfun$validateAndTransformSchema$2(StringIndexer.scala:136)
+	at scala.collection.ArrayOps$.flatMap$extension(ArrayOps.scala:971)
+	at org.apache.spark.ml.feature.StringIndexerBase.validateAndTransformSchema(StringIndexer.scala:124)
+	at org.apache.spark.ml.feature.StringIndexerBase.validateAndTransformSchema$(StringIndexer.scala:116)
+	at org.apache.spark.ml.feature.StringIndexer.validateAndTransformSchema(StringIndexer.scala:154)
+	at org.apache.spark.ml.feature.StringIndexer.transformSchema(StringIndexer.scala:253)
+	at org.apache.spark.ml.PipelineStage.transformSchema(Pipeline.scala:72)
+	at org.apache.spark.ml.feature.StringIndexer.fit(StringIndexer.scala:238)
+	at org.apache.spark.ml.feature.StringIndexer.fit(StringIndexer.scala:154)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+2026-06-11 05:07:16,256 - INFO - Spark session stopped.
+2026-06-11 05:13:56,796 - INFO - Loading labeled customer data...
+2026-06-11 05:13:59,251 - INFO - Splitting data for training and evaluation...
+2026-06-11 05:13:59,312 - INFO - Training Random Forest model...
+2026-06-11 05:14:04,306 - ERROR - Training failed: Output column features_raw already exists.
+2026-06-11 05:14:04,629 - INFO - Spark session stopped.
+2026-06-11 05:36:38,140 - INFO - Loading labeled customer data...
+2026-06-11 05:36:41,362 - INFO - Splitting data for training and evaluation...
+2026-06-11 05:36:41,455 - INFO - Training Random Forest model...
+2026-06-11 05:36:53,128 - INFO - Model Training Complete. Accuracy: 99.51%
+2026-06-11 05:36:56,516 - INFO - Model saved to /app/models/segment_classifier
+2026-06-11 05:36:57,136 - INFO - Spark session stopped.
