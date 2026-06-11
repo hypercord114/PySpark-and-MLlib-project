@@ -24,8 +24,5 @@ echo "--- Pipeline Complete! ---"
 # List the generated files for verification
 ls -R data/
 
-# ... existing docker run command ...
-
 echo "--- Fixing file permissions ---"
-# This changes the ownership of the created data folder back to your local user
 sudo chown -R "$(id -u):$(id -g)" data/
