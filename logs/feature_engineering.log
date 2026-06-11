@@ -42,3 +42,7 @@
 2026-06-11 00:24:38,166 - INFO - Faux date of report calculated to be: 2012-01-01
 2026-06-11 00:24:41,679 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
 2026-06-11 00:24:42,911 - INFO - Spark session stopped.
+2026-06-11 00:56:21,711 - INFO - Loading cleaned data for feature engineering...
+2026-06-11 00:56:28,111 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-11 00:56:31,505 - INFO - RFM features saved to /app/data/features/rfm_features.parquet
+2026-06-11 00:56:32,836 - INFO - Spark session stopped.

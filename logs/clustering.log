@@ -139,3 +139,21 @@
 2026-06-11 00:25:18,707 - INFO - Training K-Means model...
 2026-06-11 00:25:20,806 - INFO - Clustering complete. Full results saved.
 2026-06-11 00:25:21,258 - INFO - Spark session stopped.
+2026-06-11 00:56:41,478 - INFO - Preparing data for Elbow Method...
+2026-06-11 00:56:47,754 - INFO - Calculating WCSS for k=2 to 10...
+2026-06-11 00:56:52,492 - INFO - k=2, WCSS=8988.651754074337
+2026-06-11 00:56:54,289 - INFO - k=3, WCSS=7561.134382419602
+2026-06-11 00:56:57,095 - INFO - k=4, WCSS=4031.5321511940956
+2026-06-11 00:56:59,538 - INFO - k=5, WCSS=4041.695361116942
+2026-06-11 00:57:02,203 - INFO - k=6, WCSS=2503.4166608369374
+2026-06-11 00:57:03,907 - INFO - k=7, WCSS=1930.6748412106033
+2026-06-11 00:57:05,701 - INFO - k=8, WCSS=2208.7142221531426
+2026-06-11 00:57:08,292 - INFO - k=9, WCSS=1500.560182138554
+2026-06-11 00:57:10,077 - INFO - k=10, WCSS=1385.0909858370107
+2026-06-11 00:57:10,310 - INFO - Elbow plot saved to /app/index.html
+2026-06-11 00:57:10,314 - INFO - Calculating Optimal k from Elbow Method data...
+2026-06-11 00:57:10,316 - INFO - Automatically detected Optimal k: 4
+2026-06-11 00:57:10,316 - INFO - Loading RFM features for clustering...
+2026-06-11 00:57:10,318 - INFO - Training K-Means model...
+2026-06-11 00:57:12,892 - INFO - Clustering complete. Full results saved.
+2026-06-11 00:57:13,245 - INFO - Spark session stopped.
