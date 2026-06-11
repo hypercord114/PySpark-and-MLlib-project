@@ -21,6 +21,8 @@ the clustering step, which is unsupervised machine learning, performs the elbow 
 
 the data is then analyzed for a dashboard, saved to disk and displayed on a Streamlit dashboard with a simple descriptor about each cluster of customers.
 
+2026-06-10/11:  ok wrestled with this more all night.  have predictor model generated and saved.  now i need to incorporate MLflow into the scripts, add another model, and display the results on the dashboard.  also need to write a better description of what i'm doing...  tomorrow.
+
 as stated above, i will go on to predict churn and other metrics.
 
 for now, i have achieved the goal of getting this set of scripts streamlined into a unified pipeline.  i still need to wrestle with this, read a bit more about how the cluster process works so i can be more eloquent with description, and smooth out automation hiccups.  for now i'm going to leave this alone.
