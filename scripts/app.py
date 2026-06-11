@@ -17,11 +17,11 @@ if os.path.exists(summary_path):
     df = pd.read_parquet(summary_path)
     df = df.sort_values(by="customer segment", ascending=True)
     
-    st.subheader("Cluster Profiles (finances and executive decisions may affect segmentation classification)")
+    st.subheader("Customer Segment Profiles (finances and executive decisions may affect segment classification)")
     st.dataframe(df)
 
     # Simple chart
-    st.subheader("Average Monetary Spend by Cluster")
+    st.subheader("Average Monetary Spend by Customer Segment")
     st.bar_chart(df.set_index('customer segment')['Avg_Monetary'])
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
