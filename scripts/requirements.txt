@@ -6,3 +6,4 @@ setuptools
 mlflow>=2.12.0
 plotly
 prophet==1.1.5
+numpy<2.0.0
