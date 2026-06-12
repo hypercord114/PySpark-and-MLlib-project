@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
+import plotly.express as px
 
 # Set page layout
 st.set_page_config(layout="wide")
@@ -30,6 +31,31 @@ if os.path.exists(summary_path):
     runs = mlflow.search_runs(experiment_names=["Default"])
     st.write("### Experiment Data")
     st.dataframe(runs)
+
+    # Charts
+    df_metrics = runs[['tags.mlflow.runName', 'metrics.accuracy']].dropna()
+    df_metrics.columns = ['Model', 'Accuracy']
+
+    # Create the horizontal bar chart
+    fig = px.bar(
+        df_metrics, 
+        x='Accuracy', 
+        y='Model', 
+        orientation='h',
+        title="Model Accuracy Comparison",
+        color='Accuracy',
+        color_continuous_scale='Viridis'
+    )
+
+    # Style it to look like the MLflow UI
+    fig.update_layout(
+        xaxis_range=[0, 1],
+        template="plotly_dark",
+        yaxis={'categoryorder': 'total ascending'}
+    )
+
+    # Display
+    st.plotly_chart(fig, use_container_width=True)
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
