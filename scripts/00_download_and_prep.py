@@ -6,9 +6,9 @@ import pandas as pd
 import glob
 
 # Paths
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
-DATA_DIR = os.path.join(SCRIPT_DIR, '../data')
+BASE_DIR = "/app"
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 RAW_DATA_DIR = os.path.join(DATA_DIR, 'raw_data')
 
 os.makedirs(LOG_DIR, exist_ok=True)

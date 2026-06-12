@@ -5,6 +5,10 @@ set -e
 
 echo "--- Cleaning up old data ---"
 sudo rm -rf data/
+sudo rm -rf logs/
+sudo rm -rf models/
+sudo rm -rf mlflow.db
+sudo rm -rf mlruns/
 
 echo "--- Building Docker Image ---"
 docker build -t rfm-pipeline .
@@ -18,11 +22,11 @@ docker run --rm \
   -e JAVA_TOOL_OPTIONS="-Duser.home=/tmp" \
   -v "$(pwd):/app" \
   -w /app \
-  rfm-pipeline python3 scripts/main_orchestrator.py
+  rfm-pipeline python3 scripts/07_forecast_revenue.py
 
 echo "--- Pipeline Complete! ---"
 # List the generated files for verification
-ls -R data/
+#ls -R data/
 
 echo "--- Fixing file permissions ---"
 sudo chown -R "$(id -u):$(id -g)" data/

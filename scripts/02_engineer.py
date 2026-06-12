@@ -1,7 +1,8 @@
 import os
 import logging
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc, when
+from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc, when, to_date
+from pyspark.sql.types import DateType
 
 # Paths
 BASE_DIR = "/app"
@@ -52,10 +53,12 @@ def engineer_features(spark, parquet_path):
     # --- Churn Features (Binary Classification) ---
     # * Churn = no purchase in 60 days
     churn_df = df.groupBy("CustomerID").agg(
-        max("InvoiceDate").alias("LastPurchase")
+    max("InvoiceDate").alias("LastPurchase")
     ).withColumn(
-        "is_churned", 
-        when(datediff(following_month_global_expr, col("LastPurchase")) > 60, 1).otherwise(0)
+    "LastPurchase", to_date(col("LastPurchase"))
+    ).withColumn(
+    "is_churned", 
+    when(datediff(to_date(following_month_global_expr), col("LastPurchase")) > 60, 1).otherwise(0)
     )
     # Save churn feature parquet
     churn_df.write.mode("overwrite").parquet(os.path.join(FEATURE_DIR, "churn_features.parquet"))
