@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
-import mlflow.prophet
+import mlflow.pyfunc
 import plotly.express as px
 
 # Set page layout
@@ -54,7 +54,7 @@ if os.path.exists(summary_path):
     local_model_path = os.path.join(os.getcwd(), "mlruns", "0", run_id, "artifacts", "model")
 
     # - Load the model
-    loaded_model = mlflow.prophet.load_model(local_model_path)
+    loaded_model = mlflow.pyfunc.load_model(local_model_path)
 
     # - Create a forecast
     periods = st.slider("Forecast Horizon (days)", 30, 365, 90)
