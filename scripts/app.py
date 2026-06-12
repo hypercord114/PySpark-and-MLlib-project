@@ -37,7 +37,7 @@ def plot_model_metric(df, metric_name):
 
     @st.cache_data
     def get_forecast():
-        return pd.read_csv("forecast_data.csv")
+        return pd.read_csv("../forecast_data.csv")
 
 if os.path.exists(summary_path):
     # Load your aggregated data
