@@ -21,5 +21,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY . .
 
+EXPOSE 5000
+
 # Default command
 CMD ["python3", "scripts/main_orchestrator.py"]

@@ -6,9 +6,9 @@ import pandas as pd
 import glob
 
 # Paths
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(SCRIPT_DIR, '../logs')
-DATA_DIR = os.path.join(SCRIPT_DIR, '../data')
+BASE_DIR = "/app"
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 RAW_DATA_DIR = os.path.join(DATA_DIR, 'raw_data')
 
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -18,7 +18,7 @@ os.makedirs(RAW_DATA_DIR, exist_ok=True)
 logger = logging.getLogger("DownloadPrep")
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-file_handler = logging.FileHandler(os.path.join(LOG_DIR, 'download_prep.log'))
+file_handler = logging.FileHandler(os.path.join(LOG_DIR, '00_download_and_prep.log'))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 stream_handler = logging.StreamHandler()

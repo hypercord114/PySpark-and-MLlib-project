@@ -1,0 +1,15 @@
+artifact_uri: file:///app/mlruns/0/31d8124016074f4bb736e1e1e584d427/artifacts
+end_time: 1781282433756
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 31d8124016074f4bb736e1e1e584d427
+run_name: RandomForest
+run_uuid: 31d8124016074f4bb736e1e1e584d427
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781282373264
+status: 3
+tags: []
+user_id: sparkuser

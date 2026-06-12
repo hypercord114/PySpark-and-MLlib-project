@@ -1,3 +1,3 @@
 streamlit
 pandas
-pyarrow
+pyarrow==16.0.0

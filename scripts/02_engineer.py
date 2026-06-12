@@ -1,7 +1,8 @@
 import os
 import logging
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc
+from pyspark.sql.functions import col, count, sum, max, datediff, lit, add_months, trunc, when, to_date
+from pyspark.sql.types import DateType
 
 # Paths
 BASE_DIR = "/app"
@@ -19,7 +20,7 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
 # File Handler
-file_handler = logging.FileHandler(os.path.join(LOG_DIR, 'feature_engineering.log'))
+file_handler = logging.FileHandler(os.path.join(LOG_DIR, '02_engineer.log'))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
@@ -31,11 +32,9 @@ logger.addHandler(stream_handler)
 def engineer_features(spark, parquet_path):
     logger.info("Loading cleaned data for feature engineering...")
     df = spark.read.parquet(parquet_path)
-
-    # 1. Calculate Monetary value per transaction
     df = df.withColumn("TotalSpend", col("Quantity") * col("UnitPrice"))
 
-    # 2. Aggregating to Customer level (RFM)
+    # --- RFM Features (For Segmentation) ---
     # * Reset date of report to first day of month following max invoice date
     global_max_date = df.select(max("InvoiceDate")).collect()[0][0]
     following_month_global_expr = add_months(trunc(lit(global_max_date), "MM"), 1)
@@ -47,19 +46,39 @@ def engineer_features(spark, parquet_path):
         count("InvoiceNo").alias("Frequency"),
         sum("TotalSpend").alias("Monetary")
     )
+    # Save RFM feature parquet
+    rfm_df.write.mode("overwrite").parquet(os.path.join(FEATURE_DIR, "rfm_features.parquet"))
+    logger.info("RFM feature parquet saved successfully.")
     
-    return rfm_df
+    # --- Churn Features (Binary Classification) ---
+    # * Churn = no purchase in 60 days
+    churn_df = df.groupBy("CustomerID").agg(
+    max("InvoiceDate").alias("LastPurchase")
+    ).withColumn(
+    "LastPurchase", to_date(col("LastPurchase"))
+    ).withColumn(
+    "is_churned", 
+    when(datediff(to_date(following_month_global_expr), col("LastPurchase")) > 60, 1).otherwise(0)
+    )
+    # Save churn feature parquet
+    churn_df.write.mode("overwrite").parquet(os.path.join(FEATURE_DIR, "churn_features.parquet"))
+    logger.info("Churn feature parquet saved successfully.")
+
+    # --- Revenue Time-Series ---
+    ts_df = df.withColumn("Date", trunc("InvoiceDate", "week")) \
+              .groupBy("Date") \
+              .agg(sum("TotalSpend").alias("Weekly_Revenue")) \
+              .orderBy("Date")
+    # Save revenue time series parquet
+    ts_df.write.mode("overwrite").parquet(os.path.join(FEATURE_DIR, "revenue_timeseries.parquet"))
+    logger.info("Revenue time series parquet saved successfully.")
+
+    logger.info("All feature sets saved successfully.")
 
 if __name__ == "__main__":
     spark = SparkSession.builder.appName("FeatureEngineering").getOrCreate()
     try:
         rfm_features = engineer_features(spark, PROCESSED_PATH)
-        
-        # Save the features
-        output_path = os.path.join(FEATURE_DIR, "rfm_features.parquet")
-        rfm_features.write.mode("overwrite").parquet(output_path)
-        logger.info(f"RFM features saved to {output_path}")
-        rfm_features.show(5)
         
     except Exception as e:
         logger.error(f"Error during feature engineering: {e}")

@@ -1,0 +1,19 @@
+2026-06-12 16:38:10,004 - INFO - Preparing data for Elbow Method...
+2026-06-12 16:38:16,343 - INFO - Calculating WCSS for k=2 to 10...
+2026-06-12 16:38:21,259 - INFO - k=2, WCSS=8988.651754074337
+2026-06-12 16:38:23,570 - INFO - k=3, WCSS=7561.134382419602
+2026-06-12 16:38:25,360 - INFO - k=4, WCSS=4031.5321511940956
+2026-06-12 16:38:27,582 - INFO - k=5, WCSS=4041.695361116942
+2026-06-12 16:38:30,244 - INFO - k=6, WCSS=2503.4166608369374
+2026-06-12 16:38:31,766 - INFO - k=7, WCSS=1930.6748412106033
+2026-06-12 16:38:34,170 - INFO - k=8, WCSS=2208.7142221531426
+2026-06-12 16:38:36,091 - INFO - k=9, WCSS=1500.560182138554
+2026-06-12 16:38:37,784 - INFO - k=10, WCSS=1385.0909858370107
+2026-06-12 16:38:38,757 - INFO - Elbow plot saved to /app/index.html
+2026-06-12 16:38:38,757 - INFO - Calculating Optimal k from Elbow Method data...
+2026-06-12 16:38:38,758 - INFO - Automatically detected Optimal k: 4
+2026-06-12 16:38:38,758 - INFO - Loading RFM features for clustering...
+2026-06-12 16:38:38,758 - INFO - Training K-Means model...
+2026-06-12 16:39:00,118 - INFO - Clustering complete. Silhouette Score: 0.7457851023056143
+2026-06-12 16:39:00,857 - INFO - Clustering complete. Full results saved.
+2026-06-12 16:39:01,176 - INFO - Spark session stopped.
