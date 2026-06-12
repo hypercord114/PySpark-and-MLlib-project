@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import mlflow
 
 # Set page layout
 st.set_page_config(layout="wide")
@@ -11,6 +12,7 @@ st.header(" - Unsupervised ML clustering of customers based on transaction histo
 # Paths (adjust to where your script saved the parquet files)
 ANALYTICS_DIR = os.path.join(os.getcwd(), 'data/analytics')
 summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
+mlflow.set_tracking_uri("file:///workspaces/PySpark-and-MLlib-project/mlruns")
 
 if os.path.exists(summary_path):
     # Load your aggregated data
@@ -23,5 +25,11 @@ if os.path.exists(summary_path):
     # Simple chart
     st.subheader("Average Monetary Spend by Customer Segment")
     st.bar_chart(df.set_index('Customer_Segment')['Avg_Monetary'])
+
+    # Experiment data
+    runs = mlflow.search_runs(experiment_names=["Default"])
+    st.write("### Experiment Data")
+    st.dataframe(runs)
+
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
