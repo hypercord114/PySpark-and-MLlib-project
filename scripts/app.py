@@ -15,6 +15,26 @@ ANALYTICS_DIR = os.path.join(os.getcwd(), 'data/analytics')
 summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
+def plot_model_metric(df, metric_name):
+
+    col_name = f"metrics.{metric_name}"
+    
+    chart_df = df[['tags.mlflow.runName', col_name]].dropna()
+    chart_df.columns = ['Model', 'Score']
+    
+    fig = px.bar(
+        chart_df, 
+        x='Score', 
+        y='Model', 
+        orientation='h',
+        title=f"Comparison by {metric_name.capitalize()}",
+        color='Score',
+        color_continuous_scale='Blues'
+    )
+    
+    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
+    return fig
+
 if os.path.exists(summary_path):
     # Load your aggregated data
     df = pd.read_parquet(summary_path)
@@ -33,29 +53,9 @@ if os.path.exists(summary_path):
     st.dataframe(runs)
 
     # Charts
-    df_metrics = runs[['tags.mlflow.runName', 'metrics.accuracy']].dropna()
-    df_metrics.columns = ['Model', 'Accuracy']
-
-    # Create the horizontal bar chart
-    fig = px.bar(
-        df_metrics, 
-        x='Accuracy', 
-        y='Model', 
-        orientation='h',
-        title="Model Accuracy Comparison",
-        color='Accuracy',
-        color_continuous_scale='Viridis'
-    )
-
-    # Style it to look like the MLflow UI
-    fig.update_layout(
-        xaxis_range=[0, 1],
-        template="plotly_dark",
-        yaxis={'categoryorder': 'total ascending'}
-    )
-
-    # Display
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(plot_model_metric(runs, "accuracy"), use_container_width=True)
+    st.plotly_chart(plot_model_metric(runs, "auc"), use_container_width=True)
+    st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
