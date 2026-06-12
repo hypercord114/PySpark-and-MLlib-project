@@ -47,6 +47,23 @@ if os.path.exists(summary_path):
     st.subheader("Average Monetary Spend by Customer Segment")
     st.bar_chart(df.set_index('Customer_Segment')['Avg_Monetary'])
 
+    # Revenue forecast model predictions
+    st.header(" - Supervised ML prediction model Revenue Forecast projection -")
+    prophet_run_id = "3d41db9f95764deb97df6c3832d3996a"
+    model_uri = f"runs:/{prophet_run_id}/model"
+
+    # - Load the model
+    loaded_model = mlflow.prophet.load_model(model_uri)
+
+    # - Create a forecast
+    periods = st.slider("Forecast Horizon (days)", 30, 365, 90)
+    future = loaded_model.make_future_dataframe(periods=periods)
+    forecast = loaded_model.predict(future)
+
+    # - Display the results
+    st.subheader("Revenue Forecast")
+    st.line_chart(forecast.set_index('ds')[['yhat']])
+
     # Experiment data
     st.header(" - Assessment of Unsupervised ML clustering & Supervised ML prediction model training -")
     runs = mlflow.search_runs(experiment_names=["Default"])
