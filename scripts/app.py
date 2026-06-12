@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
-os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 
 # Set page layout
 st.set_page_config(layout="wide")
@@ -13,7 +12,7 @@ st.header(" - Unsupervised ML clustering of customers based on transaction histo
 # Paths (adjust to where your script saved the parquet files)
 ANALYTICS_DIR = os.path.join(os.getcwd(), 'data/analytics')
 summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
-mlflow.set_tracking_uri("file:///workspaces/PySpark-and-MLlib-project/mlruns")
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
 if os.path.exists(summary_path):
     # Load your aggregated data
