@@ -49,6 +49,10 @@ def run_forecast(spark):
         mlflow.log_param("model_type", "Prophet")
         logger.info("Prophet model logged to MLflow successfully.")
 
+    future = model.make_future_dataframe(periods=90)
+    forecast = model.predict(future)
+    forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_csv("forecast_data.csv", index=False)
+
 if __name__ == "__main__":
     spark = SparkSession.builder.appName("RevenueForecast").getOrCreate()
     try:

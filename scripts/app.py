@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
-import mlflow.pyfunc
 import plotly.express as px
 
 # Set page layout
@@ -36,6 +35,10 @@ def plot_model_metric(df, metric_name):
     fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
     return fig
 
+    @st.cache_data
+    def get_forecast():
+        return pd.read_csv("forecast_data.csv")
+
 if os.path.exists(summary_path):
     # Load your aggregated data
     df = pd.read_parquet(summary_path)
@@ -50,20 +53,8 @@ if os.path.exists(summary_path):
 
     # Revenue forecast model predictions
     st.header(" - Supervised ML prediction model Revenue Forecast projection -")
-    run_id = "3d41db9f95764deb97df6c3832d3996a"
-    local_model_path = os.path.join(os.getcwd(), "mlruns", "0", run_id, "artifacts", "model")
-
-    # - Load the model
-    loaded_model = mlflow.pyfunc.load_model(local_model_path)
-
-    # - Create a forecast
-    periods = st.slider("Forecast Horizon (days)", 30, 365, 90)
-    future = loaded_model.make_future_dataframe(periods=periods)
-    forecast = loaded_model.predict(future)
-
-    # - Display the results
-    st.subheader("Revenue Forecast")
-    st.line_chart(forecast.set_index('ds')[['yhat']])
+    forecast_df = get_forecast()
+    st.line_chart(forecast_df.set_index('ds')[['yhat']])
 
     # Experiment data
     st.header(" - Assessment of Unsupervised ML clustering & Supervised ML prediction model training -")
