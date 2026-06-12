@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
+import mlflow.prophet
 import plotly.express as px
 
 # Set page layout
