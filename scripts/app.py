@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import mlflow
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 
 # Set page layout
 st.set_page_config(layout="wide")
