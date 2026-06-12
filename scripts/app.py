@@ -35,13 +35,13 @@ def plot_model_metric(df, metric_name):
     fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
     return fig
 
-    @st.cache_data
-    def get_forecast():
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        root_dir = os.path.dirname(script_dir)
-        file_path = os.path.join(root_dir, "forecast_data.csv")
+@st.cache_data
+def get_forecast():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(script_dir)
+    file_path = os.path.join(root_dir, "forecast_data.csv")
 
-        return pd.read_csv(file_path)
+    return pd.read_csv(file_path)
 
 if os.path.exists(summary_path):
     # Load your aggregated data
