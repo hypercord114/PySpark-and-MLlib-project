@@ -50,11 +50,11 @@ if os.path.exists(summary_path):
 
     # Revenue forecast model predictions
     st.header(" - Supervised ML prediction model Revenue Forecast projection -")
-    prophet_run_id = "3d41db9f95764deb97df6c3832d3996a"
-    model_uri = f"runs:/{prophet_run_id}/model"
+    run_id = "3d41db9f95764deb97df6c3832d3996a"
+    local_model_path = os.path.join(os.getcwd(), "mlruns", "0", run_id, "artifacts", "model")
 
     # - Load the model
-    loaded_model = mlflow.prophet.load_model(model_uri)
+    loaded_model = mlflow.prophet.load_model(local_model_path)
 
     # - Create a forecast
     periods = st.slider("Forecast Horizon (days)", 30, 365, 90)
