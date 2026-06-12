@@ -1,6 +1,9 @@
 import os
 import subprocess
 import logging
+import mlflow
+
+mlflow.set_tracking_uri("file:///app/mlruns")
 
 # Ensure logs directory exists
 BASE_DIR = "/app"

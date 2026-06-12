@@ -1,0 +1,15 @@
+artifact_uri: file:///app/mlruns/0/a4e3a71746594809b9577708270a9fa3/artifacts
+end_time: 1781282504541
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a4e3a71746594809b9577708270a9fa3
+run_name: DecisionTree
+run_uuid: a4e3a71746594809b9577708270a9fa3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781282473029
+status: 3
+tags: []
+user_id: sparkuser

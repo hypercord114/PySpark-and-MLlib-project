@@ -1,0 +1,7 @@
+2026-06-12 16:37:46,548 - INFO - Loading cleaned data for feature engineering...
+2026-06-12 16:37:52,390 - INFO - Faux date of report calculated to be: 2012-01-01
+2026-06-12 16:37:55,580 - INFO - RFM feature parquet saved successfully.
+2026-06-12 16:37:56,855 - INFO - Churn feature parquet saved successfully.
+2026-06-12 16:37:58,420 - INFO - Revenue time series parquet saved successfully.
+2026-06-12 16:37:58,420 - INFO - All feature sets saved successfully.
+2026-06-12 16:37:58,829 - INFO - Spark session stopped.

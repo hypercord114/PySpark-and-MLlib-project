@@ -15,6 +15,7 @@ docker build -t rfm-pipeline .
 
 echo "--- Starting Pipeline Execution ---"
 docker run --rm \
+  -p 5000:5000 \
   -e HOME=/tmp \
   -e USER=sparkuser \
   -e IVY_HOME=/tmp/.ivy2 \
@@ -22,11 +23,11 @@ docker run --rm \
   -e JAVA_TOOL_OPTIONS="-Duser.home=/tmp" \
   -v "$(pwd):/app" \
   -w /app \
-  rfm-pipeline python3 scripts/07_forecast_revenue.py
+  rfm-pipeline python3 scripts/main_orchestrator.py
 
 echo "--- Pipeline Complete! ---"
 # List the generated files for verification
-#ls -R data/
+ls -R data/
 
 echo "--- Fixing file permissions ---"
 sudo chown -R "$(id -u):$(id -g)" data/
