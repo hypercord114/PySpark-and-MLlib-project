@@ -1,0 +1,19 @@
+artifact_path: churn_model
+flavors:
+  python_function:
+    data: sparkml
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.spark
+    python_version: 3.12.13
+  spark:
+    code: null
+    model_class: pyspark.ml.pipeline.PipelineModel
+    model_data: sparkml
+    pyspark_version: 4.1.2
+mlflow_version: 2.19.0
+model_size_bytes: 10861
+model_uuid: 09d09ff3663f4fd89ce78860f111cde2
+run_id: 43f1b21aa59f494f89266f10a854b457
+utc_time_created: '2026-06-12 16:42:06.030915'

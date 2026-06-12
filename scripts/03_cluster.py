@@ -2,9 +2,12 @@ import os
 import logging
 import numpy as np
 import plotly.graph_objects as go
+import mlflow
+import mlflow.spark
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.clustering import KMeans
+from pyspark.ml.evaluation import ClusteringEvaluator
 
 # Paths
 BASE_DIR = "/app"
@@ -18,7 +21,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-file_handler = logging.FileHandler(os.path.join(LOG_DIR, 'clustering.log'))
+file_handler = logging.FileHandler(os.path.join(LOG_DIR, '03_cluster.log'))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 stream_handler = logging.StreamHandler()
@@ -96,7 +99,7 @@ def run_final_clustering(df_scaled, optimal_k):
     # Add cluster predictions back to the original DF
     clustered_df = model.transform(df_scaled)
     
-    return clustered_df
+    return model, clustered_df
 
 if __name__ == "__main__":
     spark = SparkSession.builder.appName("Clustering").getOrCreate()
@@ -104,7 +107,19 @@ if __name__ == "__main__":
         k_values, costs, df_scaled = run_elbow_method(spark, FEATURE_PATH)
         optimal_k = find_elbow_point(list(k_values), costs)
         logger.info(f"Automatically detected Optimal k: {optimal_k}")
-        results = run_final_clustering(df_scaled, optimal_k)
+        model, results = run_final_clustering(df_scaled, optimal_k)
+
+        # Start MLflow tracking
+        with mlflow.start_run(run_name="Customer_Clustering"):
+            # Log the model
+            mlflow.spark.log_model(model, "clustering_model")
+            mlflow.log_param("k", optimal_k)
+            
+            evaluator = ClusteringEvaluator()
+            silhouette = evaluator.evaluate(results)
+            mlflow.log_metric("silhouette_score", silhouette)
+            
+            logger.info(f"Clustering complete. Silhouette Score: {silhouette}")
 
         # Save the full results dataframe (includes RFM, Scaled features, and predictions)
         results.write.mode("overwrite").parquet(

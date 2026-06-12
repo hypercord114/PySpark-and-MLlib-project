@@ -21,7 +21,7 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
 # File Handler
-file_handler = logging.FileHandler(os.path.join(LOG_DIR, 'data_cleaning.log'))
+file_handler = logging.FileHandler(os.path.join(LOG_DIR, '01_clean_data.log'))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 

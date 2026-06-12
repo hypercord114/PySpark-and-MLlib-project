@@ -5,12 +5,17 @@ set -e
 
 echo "--- Cleaning up old data ---"
 sudo rm -rf data/
+sudo rm -rf logs/
+sudo rm -rf models/
+sudo rm -rf mlflow.db
+sudo rm -rf mlruns/
 
 echo "--- Building Docker Image ---"
 docker build -t rfm-pipeline .
 
 echo "--- Starting Pipeline Execution ---"
 docker run --rm \
+  -p 5000:5000 \
   -e HOME=/tmp \
   -e USER=sparkuser \
   -e IVY_HOME=/tmp/.ivy2 \
