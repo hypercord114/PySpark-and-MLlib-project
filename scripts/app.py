@@ -48,14 +48,15 @@ if os.path.exists(summary_path):
     st.bar_chart(df.set_index('Customer_Segment')['Avg_Monetary'])
 
     # Experiment data
+    st.header(" - Assessment of Unsupervised ML clustering & Supervised ML prediction model training -")
     runs = mlflow.search_runs(experiment_names=["Default"])
     st.write("### Experiment Data")
     st.dataframe(runs)
 
     # Charts
+    st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
     st.plotly_chart(plot_model_metric(runs, "accuracy"), use_container_width=True)
     st.plotly_chart(plot_model_metric(runs, "auc"), use_container_width=True)
-    st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
