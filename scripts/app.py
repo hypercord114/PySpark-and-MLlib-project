@@ -71,7 +71,7 @@ if os.path.exists(summary_path):
     # 2. Get all runs
     runs = client.search_runs(experiment_ids=[experiment.experiment_id])
 
-    if runs is not None and not runs.empty:
+    if runs is not None and len(runs) > 0:
         # 1. Drop complex columns safely
         cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
         runs_clean = runs.drop(columns=cols_to_drop)
