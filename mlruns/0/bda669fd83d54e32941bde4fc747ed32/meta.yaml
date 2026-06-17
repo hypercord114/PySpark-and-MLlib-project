@@ -1,0 +1,15 @@
+artifact_uri: file:///app/mlruns/0/bda669fd83d54e32941bde4fc747ed32/artifacts
+end_time: 1781724445930
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: bda669fd83d54e32941bde4fc747ed32
+run_name: Revenue_Forecast
+run_uuid: bda669fd83d54e32941bde4fc747ed32
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781724445247
+status: 3
+tags: []
+user_id: sparkuser

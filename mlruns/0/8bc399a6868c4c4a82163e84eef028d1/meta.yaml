@@ -1,0 +1,15 @@
+artifact_uri: file:///app/mlruns/0/8bc399a6868c4c4a82163e84eef028d1/artifacts
+end_time: 1781724426040
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8bc399a6868c4c4a82163e84eef028d1
+run_name: Churn_Prediction
+run_uuid: 8bc399a6868c4c4a82163e84eef028d1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781724395485
+status: 3
+tags: []
+user_id: sparkuser
