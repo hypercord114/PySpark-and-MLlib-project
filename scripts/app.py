@@ -105,7 +105,7 @@ if os.path.exists(summary_path):
             run_id = clustering_runs.iloc[0]['run_id']
             client = MlflowClient()
             
-            # --- ELBOW METHOD LINE GRAPHS ---
+            # --- ELBOW METHOD (WCSS ONLY) ---
             wcss_history = client.get_metric_history(run_id, 'WCSS')
             silhouette_history = client.get_metric_history(run_id, 'silhouette_score')
             
@@ -115,18 +115,12 @@ if os.path.exists(summary_path):
                 'Silhouette': [m.value for m in silhouette_history]
             })
 
-            st.subheader("Elbow Method: WCSS and Silhouette Score")
-            col1, col2 = st.columns(2)
+            st.subheader("Elbow Method Analysis")
             
-            with col1:
-                fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS)", markers=True)
-                fig_wcss.update_layout(template="plotly_dark")
-                st.plotly_chart(fig_wcss, use_container_width=True)
-                
-            with col2:
-                fig_sil = px.line(elbow_df, x='k', y='Silhouette', title="Silhouette Score Trend", markers=True)
-                fig_sil.update_layout(template="plotly_dark")
-                st.plotly_chart(fig_sil, use_container_width=True)
+            # Show WCSS Curve
+            fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS)", markers=True)
+            fig_wcss.update_layout(template="plotly_dark")
+            st.plotly_chart(fig_wcss, use_container_width=True)
             
             # --- SILHOUETTE BAR CHART ---
             st.subheader("Silhouette Score by Cluster Count (k)")
