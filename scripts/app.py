@@ -62,9 +62,37 @@ if os.path.exists(summary_path):
 
     # Experiment data
     st.header(" - Assessment of Unsupervised ML clustering & Supervised ML prediction model training -")
-    runs = mlflow.search_runs(experiment_names=["Default"])
+    #runs = mlflow.search_runs(experiment_names=["Default"])
+    
+    client = MlflowClient()
+    experiment = client.get_experiment_by_name("Default")
+
+    # 2. Get all runs
+    runs = client.search_runs(experiment_ids=[experiment.experiment_id])
+
+    # 3. Build a list to hold the detailed data
+    all_steps = []
+
+    for run in runs:
+        run_id = run.info.run_id
+        run_name = run.data.tags.get("mlflow.runName", "Unknown")
+    
+        # FETCH METRIC HISTORY (This is the missing piece)
+        # This retrieves every value logged with .log_metric(..., step=k)
+        history = client.get_metric_history(run_id, "silhouette_score")
+    
+        for m in history:
+            all_steps.append({
+                "run_name": run_name,
+                "k": m.step,
+                "silhouette_score": m.value
+            })
+
+    # 4. Convert to DataFrame for plotting
+    detailed_df = pd.DataFrame(runs)
+    
     st.write("### Experiment Data")
-    st.dataframe(runs)
+    st.dataframe(all steps)
 
     # Charts
     st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
