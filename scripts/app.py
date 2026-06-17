@@ -71,14 +71,19 @@ if os.path.exists(summary_path):
     # 2. Get all runs
     runs = client.search_runs(experiment_ids=[experiment.experiment_id])
 
-    if runs is not None and not runs.empty:
-        # 1. Drop complex columns safely
+    if runs is not None and len(runs) > 0:
+        # Drop complex object columns that break st.dataframe
         cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
-        runs_clean = runs.drop(columns=cols_to_drop)
+        runs_clean = runs.drop(columns=cols_to_drop, errors='ignore')
 
-        # 2. Convert remaining object types to string
+        # Convert remaining object types to string
         for col in runs_clean.select_dtypes(include=['object']).columns:
             runs_clean[col] = runs_clean[col].astype(str)
+
+    else:
+        st.warning("No runs found in Experiment 0.")
+        # Debug: See what experiments actually exist
+        st.write("Available experiments:", [(e.experiment_id, e.name) for e in mlflow.search_experiments()])
 
     # 3. Build a list to hold the detailed data
     all_steps = []
