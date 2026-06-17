@@ -1,6 +1,4 @@
 import os
-os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
-
 import streamlit as st
 import pandas as pd
 import mlflow
@@ -18,28 +16,18 @@ summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # --- MLFLOW SETUP ---
-# 1. ALLOW FILE STORE ACCESS
-# This disables the "maintenance mode" exception triggered by newer MLflow versions
-
-
-# 2. Force the removal of any existing database tracking URI in the environment
-if "MLFLOW_TRACKING_URI" in os.environ:
-    del os.environ["MLFLOW_TRACKING_URI"]
-
-# 3. Define the path to your mlruns folder
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-mlruns_path = os.path.join(root_dir, "mlruns")
-
-# 4. Explicitly set the tracking URI to the file protocol
-mlflow.set_tracking_uri(f"file://{mlruns_path}")
+# Point directly to the SQLite database in the root repository
+db_path = os.path.join(root_dir, "mlruns.db")
+# Using '?mode=ro' to ensure read-only access, which is required for Streamlit Cloud
+mlflow.set_tracking_uri(f"sqlite:///{db_path}?mode=ro")
 
 @st.cache_data
 def get_mlflow_data():
-    """Retrieve all runs from experiment 0."""
+    """Retrieve all runs from experiment 0 via the SQLite database."""
     try:
         return mlflow.search_runs(experiment_ids=["0"])
     except Exception as e:
-        st.error(f"Error loading MLflow data: {e}")
+        st.error(f"Error loading MLflow data from database: {e}")
         return pd.DataFrame()
 
 def plot_model_metric(df, metric_name):
@@ -100,7 +88,7 @@ if os.path.exists(summary_path):
             if fig:
                 st.plotly_chart(fig, use_container_width=True)
     else:
-        st.warning("No MLflow runs found. Ensure the directory/database is correctly configured.")
+        st.warning("No MLflow runs found. Ensure 'mlruns.db' exists in the root directory.")
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
