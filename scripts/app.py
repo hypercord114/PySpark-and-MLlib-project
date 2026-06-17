@@ -93,12 +93,12 @@ if os.path.exists(summary_path):
     detailed_df = pd.DataFrame(runs)
     
     st.write("### Experiment Data")
-    st.dataframe(runs)
+    st.dataframe(detailed_df)
 
     # Charts
-    st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
-    st.plotly_chart(plot_model_metric(runs, "accuracy"), use_container_width=True)
-    st.plotly_chart(plot_model_metric(runs, "auc"), use_container_width=True)
+    st.plotly_chart(plot_model_metric(detailed_df, "silhouette_score"), use_container_width=True)
+    st.plotly_chart(plot_model_metric(detailed_df, "accuracy"), use_container_width=True)
+    st.plotly_chart(plot_model_metric(detailed_df, "auc"), use_container_width=True)
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
