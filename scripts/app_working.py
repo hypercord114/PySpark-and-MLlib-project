@@ -31,34 +31,38 @@ def get_mlflow_data():
         return pd.DataFrame()
 
 def plot_model_metric(df, metric_name):
-    """Plot all runs individually by using unique run_id."""
+    """Plot all available runs for a specific metric."""
     col_name = f"metrics.{metric_name}"
     
+    # Check if the metric actually exists in the data
     if col_name not in df.columns:
         return None
     
-    # Use 'run_id' as the unique identifier for the Y-axis
-    # This prevents grouping different runs under the same 'Model' name
-    chart_df = df[['run_id', 'tags.mlflow.runName', col_name]].dropna(subset=[col_name])
+    # 1. Filter: Keep only the relevant columns and rows where the metric exists
+    # We include run_id as a fallback label in case runName is missing
+    plot_df = df[['tags.mlflow.runName', 'run_id', col_name]].dropna(subset=[col_name])
     
-    # Fallback to run_id if runName is empty
-    chart_df['Model_Label'] = chart_df['tags.mlflow.runName'].fillna(chart_df['run_id'])
+    # 2. Assign a 'Model' label: use Run Name if available, otherwise use Run ID
+    plot_df['Model'] = plot_df['tags.mlflow.runName'].fillna(plot_df['run_id'])
     
-    # Rename for chart clarity
-    chart_df = chart_df.rename(columns={col_name: 'Score'})
+    # 3. Rename metric for chart clarity
+    plot_df = plot_df.rename(columns={col_name: 'Score'})
     
+    if plot_df.empty:
+        return None
+        
+    # 4. Generate Plot
     fig = px.bar(
-        chart_df, 
+        plot_df, 
         x='Score', 
-        y='run_id', 
-        hover_data=['Model_Label'], 
+        y='Model', 
         orientation='h',
         title=f"Comparison by {metric_name.capitalize()}",
         color='Score',
         color_continuous_scale='Blues'
     )
-    
-    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
+    # Order by 'total descending' so top-performing models appear at the top
+    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total descending'})
     return fig
 
 @st.cache_data
@@ -88,34 +92,12 @@ if os.path.exists(summary_path):
     runs = get_mlflow_data()
     
     if not runs.empty:
-        # Display the main table
+        # Display the full table (drop internal artifacts/history columns)
         cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
         st.dataframe(runs.drop(columns=cols_to_drop, errors='ignore'))
 
-        # 1. Elbow/Silhouette History Plot
-        clustering_runs = runs[runs['tags.mlflow.runName'] == 'Customer_Clustering']
-        
-        if not clustering_runs.empty:
-            run_id = clustering_runs.iloc[0]['run_id']
-            # Fetch history (the "k" iterations logged with steps)
-            history = mlflow.get_metric_history(run_id, 'silhouette_score')
-            
-            history_df = pd.DataFrame([(m.step, m.value) for m in history], columns=['k', 'Silhouette Score'])
-            
-            st.subheader("Silhouette Score by Cluster Count (k)")
-            fig = px.bar(
-                history_df, 
-                x='k', 
-                y='Silhouette Score', 
-                title="Silhouette Scores per Cluster (k)",
-                color='Silhouette Score',
-                color_continuous_scale='Blues'
-            )
-            fig.update_layout(template="plotly_dark", xaxis=dict(tickmode='linear'))
-            st.plotly_chart(fig, use_container_width=True)
-            
-        # 2. Other Metrics Comparison Plots
-        for metric in ["accuracy", "auc"]:
+        # Metrics plots - loops through specified metrics and renders all runs
+        for metric in ["silhouette_score", "accuracy", "auc"]:
             fig = plot_model_metric(runs, metric)
             if fig:
                 st.plotly_chart(fig, use_container_width=True)
