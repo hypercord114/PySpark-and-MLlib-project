@@ -59,7 +59,7 @@ def plot_model_metric(df, metric_name):
         x='Score', 
         y='Model_Label', 
         orientation='h',
-        title=f"Comparison by {metric_name.capitalize()}",
+        title=f"Supervised ML predictive model training - Comparison by {metric_name.capitalize()}",
         color='Score',
         color_continuous_scale='Blues'
     )
