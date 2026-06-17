@@ -32,7 +32,7 @@ def get_mlflow_data():
         return pd.DataFrame()
 
 def plot_model_metric(df, metric_name):
-    """Plot all runs individually by using unique run_id."""
+    """Plot all runs individually and format names for display."""
     col_name = f"metrics.{metric_name}"
     
     if col_name not in df.columns:
@@ -44,14 +44,20 @@ def plot_model_metric(df, metric_name):
     # Fallback to run_id if runName is empty
     chart_df['Model_Label'] = chart_df['tags.mlflow.runName'].fillna(chart_df['run_id'])
     
-    # Rename for chart clarity
+    # Apply clean formatting for labels
+    name_map = {
+        "logisticregression": "Logistic Regression",
+        "decisiontree": "Decision Tree",
+        "randomforest": "Random Forest"
+    }
+    chart_df['Model_Label'] = chart_df['Model_Label'].replace(name_map)
+    
     chart_df = chart_df.rename(columns={col_name: 'Score'})
     
     fig = px.bar(
         chart_df, 
         x='Score', 
-        y='run_id', 
-        #hover_data=['Model_Label'], 
+        y='Model_Label', 
         orientation='h',
         title=f"Comparison by {metric_name.capitalize()}",
         color='Score',
