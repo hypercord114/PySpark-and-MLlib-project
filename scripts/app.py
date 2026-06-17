@@ -1,6 +1,8 @@
+import os
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
+
 import streamlit as st
 import pandas as pd
-import os
 import mlflow
 import plotly.express as px
 
@@ -18,7 +20,7 @@ root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # --- MLFLOW SETUP ---
 # 1. ALLOW FILE STORE ACCESS
 # This disables the "maintenance mode" exception triggered by newer MLflow versions
-os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
+
 
 # 2. Force the removal of any existing database tracking URI in the environment
 if "MLFLOW_TRACKING_URI" in os.environ:
