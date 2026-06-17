@@ -11,10 +11,13 @@ st.set_page_config(layout="wide")
 st.title("Customer Segmentation Dashboard [Jan. 1 2012]")
 st.header(" - Unsupervised ML clustering of customers based on transaction history -")
 
-# Paths (adjust to where your script saved the parquet files)
+# Paths
 ANALYTICS_DIR = os.path.join(os.getcwd(), 'data/analytics')
 summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
-mlflow.set_tracking_uri("sqlite:///mlruns.db")
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+db_path = os.path.join(root_dir, "mlruns.db")
+
+mlflow.set_tracking_uri(f"sqlite:///{db_path}")
 
 def plot_model_metric(df, metric_name):
 
@@ -44,6 +47,10 @@ def get_forecast():
 
     return pd.read_csv(file_path)
 
+@st.cache_resource
+def get_mlflow_data():
+    return mlflow.search_runs(experiment_ids=["0"])
+
 if os.path.exists(summary_path):
     # Load your aggregated data
     df = pd.read_parquet(summary_path)
@@ -63,56 +70,54 @@ if os.path.exists(summary_path):
 
     # Experiment data
     st.header(" - Assessment of Unsupervised ML clustering & Supervised ML prediction model training -")
-    #runs = mlflow.search_runs(experiment_names=["Default"])
+
+    # - Get all runs
+    runs = get_mlflow_data()
+
+    if runs_df is not None and not runs_df.empty:
+        # --- Part A: Display the Summary ---
+        cols_to_drop = [col for col in runs_df.columns if "log-model.history" in col]
+        runs_clean = runs_df.drop(columns=cols_to_drop, errors='ignore')
     
-    client = MlflowClient()
-    experiment = client.get_experiment_by_name("Default")
+        st.write("### Experiment Data")
+        st.dataframe(runs_clean)
 
-    # 2. Get all runs
-    runs = client.search_runs(experiment_ids=[experiment.experiment_id])
+        # --- Part B: Fetch Detailed Metric History for Plots ---
+        all_steps = []
+        client = mlflow.tracking.MlflowClient()
 
-    if runs is not None and len(runs) > 0:
-        # Drop complex object columns that break st.dataframe
-        cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
-        runs_clean = runs.drop(columns=cols_to_drop, errors='ignore')
+        # Iterate through the DataFrame rows to get the Run IDs
+        for _, run in runs_df.iterrows():
+            run_id = run['run_id']
+            run_name = run.get("tags.mlflow.runName", "Unknown")
+        
+            # Fetch metric history for specific metrics
+            for metric_name in ["silhouette_score", "accuracy", "auc"]:
+                try:
+                    history = client.get_metric_history(run_id, metric_name)
+                    for m in history:
+                        all_steps.append({
+                            "run_name": run_name,
+                            "metric": metric_name,
+                            "step": m.step,
+                            "value": m.value
+                        })
+                except:
+                    continue # Metric might not exist for this run
 
-        # Convert remaining object types to string
-        for col in runs_clean.select_dtypes(include=['object']).columns:
-            runs_clean[col] = runs_clean[col].astype(str)
+        # 3. Create the detailed DataFrame for Plotly
+        detailed_df = pd.DataFrame(all_steps)
+    
+        # 4. Filter and plot using the new detailed_df
+        def get_plot_data(df, metric_name):
+            return df[df['metric'] == metric_name]
+
+        st.plotly_chart(plot_model_metric(get_plot_data(detailed_df, "silhouette_score"), "silhouette_score"))
+        st.plotly_chart(plot_model_metric(get_plot_data(detailed_df, "accuracy"), "accuracy"))
+        st.plotly_chart(plot_model_metric(get_plot_data(detailed_df, "auc"), "auc"))
 
     else:
         st.warning("No runs found in Experiment 0.")
-        # Debug: See what experiments actually exist
-        st.write("Available experiments:", [(e.experiment_id, e.name) for e in mlflow.search_experiments()])
-
-    # 3. Build a list to hold the detailed data
-    all_steps = []
-
-    for run in runs:
-        run_id = run.info.run_id
-        run_name = run.data.tags.get("mlflow.runName", "Unknown")
-    
-        # FETCH METRIC HISTORY (This is the missing piece)
-        # This retrieves every value logged with .log_metric(..., step=k)
-        history = client.get_metric_history(run_id, "silhouette_score")
-    
-        for m in history:
-            all_steps.append({
-                "run_name": run_name,
-                "k": m.step,
-                "silhouette_score": m.value
-            })
-
-    # 4. Convert to DataFrame for plotting
-    detailed_df = pd.DataFrame(runs)
-    
-    st.write("### Experiment Data")
-    st.dataframe(runs_clean)
-
-    # Charts
-    st.plotly_chart(plot_model_metric(detailed_df, "silhouette_score"), use_container_width=True)
-    st.plotly_chart(plot_model_metric(detailed_df, "accuracy"), use_container_width=True)
-    st.plotly_chart(plot_model_metric(detailed_df, "auc"), use_container_width=True)
 
 else:
     st.error("Analytics data not found. Please run your 04_analyze_segments.py script first!")
