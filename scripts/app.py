@@ -114,8 +114,6 @@ if os.path.exists(summary_path):
                 'WCSS': [m.value for m in wcss_history],
                 'Silhouette': [m.value for m in silhouette_history]
             })
-
-            st.subheader("Elbow Method Analysis")
             
             # Show WCSS Curve
             fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS)", markers=True)
@@ -123,7 +121,6 @@ if os.path.exists(summary_path):
             st.plotly_chart(fig_wcss, use_container_width=True)
             
             # --- SILHOUETTE BAR CHART ---
-            st.subheader("Silhouette Score by Cluster Count (k)")
             fig_bar = px.bar(
                 elbow_df, 
                 x='k', 
