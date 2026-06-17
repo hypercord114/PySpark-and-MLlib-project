@@ -31,38 +31,34 @@ def get_mlflow_data():
         return pd.DataFrame()
 
 def plot_model_metric(df, metric_name):
-    """Plot all available runs for a specific metric."""
+    """Plot all runs individually by using unique run_id."""
     col_name = f"metrics.{metric_name}"
     
-    # Check if the metric actually exists in the data
     if col_name not in df.columns:
         return None
     
-    # 1. Filter: Keep only the relevant columns and rows where the metric exists
-    # We include run_id as a fallback label in case runName is missing
-    plot_df = df[['tags.mlflow.runName', 'run_id', col_name]].dropna(subset=[col_name])
+    # Use 'run_id' as the unique identifier for the Y-axis
+    # This prevents grouping different runs under the same 'Model' name
+    chart_df = df[['run_id', 'tags.mlflow.runName', col_name]].dropna(subset=[col_name])
     
-    # 2. Assign a 'Model' label: use Run Name if available, otherwise use Run ID
-    plot_df['Model'] = plot_df['tags.mlflow.runName'].fillna(plot_df['run_id'])
+    # Fallback to run_id if runName is empty
+    chart_df['Model_Label'] = chart_df['tags.mlflow.runName'].fillna(chart_df['run_id'])
     
-    # 3. Rename metric for chart clarity
-    plot_df = plot_df.rename(columns={col_name: 'Score'})
+    # We use run_id in the index or label to ensure uniqueness
+    chart_df = chart_df.rename(columns={col_name: 'Score'})
     
-    if plot_df.empty:
-        return None
-        
-    # 4. Generate Plot
     fig = px.bar(
-        plot_df, 
+        chart_df, 
         x='Score', 
-        y='Model', 
+        y='run_id', # Use the unique ID for the Y-axis
+        hover_data=['Model_Label'], # Show the human-readable name on hover
         orientation='h',
         title=f"Comparison by {metric_name.capitalize()}",
         color='Score',
         color_continuous_scale='Blues'
     )
-    # Order by 'total descending' so top-performing models appear at the top
-    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total descending'})
+    
+    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
     return fig
 
 @st.cache_data
