@@ -16,19 +16,20 @@ summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # --- MLFLOW SETUP ---
-# 1. Force the removal of any existing database tracking URI in the environment
+# 1. ALLOW FILE STORE ACCESS
+# This disables the "maintenance mode" exception triggered by newer MLflow versions
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
+
+# 2. Force the removal of any existing database tracking URI in the environment
 if "MLFLOW_TRACKING_URI" in os.environ:
     del os.environ["MLFLOW_TRACKING_URI"]
 
-# 2. Define the exact path to your mlruns folder
+# 3. Define the path to your mlruns folder
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 mlruns_path = os.path.join(root_dir, "mlruns")
 
-# 3. Explicitly set the tracking URI using the file protocol.
-# This bypasses the SQL driver and prevents the _verify_schema call.
+# 4. Explicitly set the tracking URI to the file protocol
 mlflow.set_tracking_uri(f"file://{mlruns_path}")
-
-# 4. Debug check: Print the actual URI MLflow is using
-st.sidebar.write(f"MLflow URI: {mlflow.get_tracking_uri()}")
 
 @st.cache_data
 def get_mlflow_data():
