@@ -71,6 +71,14 @@ if os.path.exists(summary_path):
     # 2. Get all runs
     runs = client.search_runs(experiment_ids=[experiment.experiment_id])
 
+    cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
+    runs_clean = runs.drop(columns=cols_to_drop)
+
+    # 2. Convert all object/dictionary columns to strings
+    # This ensures that even if there's a dictionary hiding in a tag, it's just text
+    for col in runs_clean.select_dtypes(include=['object']).columns:
+        runs_clean[col] = runs_clean[col].astype(str)
+
     # 3. Build a list to hold the detailed data
     all_steps = []
 
@@ -93,7 +101,7 @@ if os.path.exists(summary_path):
     detailed_df = pd.DataFrame(runs)
     
     st.write("### Experiment Data")
-    st.dataframe(detailed_df)
+    st.dataframe(runs_clean)
 
     # Charts
     st.plotly_chart(plot_model_metric(detailed_df, "silhouette_score"), use_container_width=True)
