@@ -1,8 +1,8 @@
-2026-06-12 16:39:29,948 - INFO - Loading and splitting data...
-2026-06-12 16:39:33,002 - INFO - Dropping existing 'features' column to prevent conflict.
-2026-06-12 16:39:33,191 - INFO - Starting experiment for: RandomForest
-2026-06-12 16:40:33,755 - INFO - RandomForest completed. Accuracy: 0.9878
-2026-06-12 16:40:33,757 - INFO - Starting experiment for: LogisticRegression
-2026-06-12 16:41:13,014 - INFO - LogisticRegression completed. Accuracy: 0.9074
-2026-06-12 16:41:13,016 - INFO - Starting experiment for: DecisionTree
-2026-06-12 16:41:44,540 - INFO - DecisionTree completed. Accuracy: 0.9903
+2026-06-17 05:38:26,534 - INFO - Loading and splitting data...
+2026-06-17 05:38:29,088 - INFO - Dropping existing 'features' column to prevent conflict.
+2026-06-17 05:38:29,345 - INFO - Starting experiment for: RandomForest
+2026-06-17 05:39:36,556 - INFO - RandomForest completed. Accuracy: 0.9903
+2026-06-17 05:39:36,570 - INFO - Starting experiment for: LogisticRegression
+2026-06-17 05:40:20,519 - INFO - LogisticRegression completed. Accuracy: 0.9074
+2026-06-17 05:40:20,535 - INFO - Starting experiment for: DecisionTree
+2026-06-17 05:40:56,451 - INFO - DecisionTree completed. Accuracy: 0.9903

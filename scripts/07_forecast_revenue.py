@@ -1,4 +1,6 @@
 import os
+os.environ["MLFLOW_TRACKING_URI"] = "sqlite:///mlflow.db"
+
 import logging
 import mlflow
 import mlflow.prophet
@@ -7,11 +9,20 @@ from prophet import Prophet
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 
+print(f"DEBUG: Current Tracking URI is: {mlflow.get_tracking_uri()}")
+print(f"DEBUG: Environment variable is: {os.getenv('MLFLOW_TRACKING_URI')}")
+
 # Paths
 BASE_DIR = "/app"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 TS_DATA_PATH = os.path.join(BASE_DIR, "data/features/revenue_timeseries.parquet")
 MODEL_DIR = os.path.join(BASE_DIR, "models/revenue_forecast")
+
+if os.getenv("MLFLOW_TRACKING_URI"):
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+
+# Ensure directories exist
+os.makedirs(LOG_DIR, exist_ok=True)
 
 # Configure Logging
 logger = logging.getLogger(__name__)

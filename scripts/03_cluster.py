@@ -1,4 +1,6 @@
 import os
+os.environ["MLFLOW_TRACKING_URI"] = "sqlite:///mlflow.db"
+
 import logging
 import numpy as np
 import plotly.graph_objects as go
@@ -9,11 +11,18 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
 
+print(f"DEBUG: Current Tracking URI is: {mlflow.get_tracking_uri()}")
+print(f"DEBUG: Environment variable is: {os.getenv('MLFLOW_TRACKING_URI')}")
+
 # Paths
 BASE_DIR = "/app"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 FEATURE_PATH = os.path.join(BASE_DIR, "data/features/rfm_features.parquet")
 CLUSTER_DIR = os.path.join(BASE_DIR, "data/clusters")
+
+if os.getenv("MLFLOW_TRACKING_URI"):
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+
 os.makedirs(CLUSTER_DIR, exist_ok=True)
 os.makedirs(LOG_DIR, exist_ok=True)
 
@@ -43,12 +52,24 @@ def run_elbow_method(spark, input_path):
     k_values = range(2, 11)
     
     logger.info("Calculating WCSS for k=2 to 10...")
-    for k in k_values:
-        kmeans = KMeans(k=k, seed=42)
-        model = kmeans.fit(df_scaled)
-        cost = model.summary.trainingCost
-        costs.append(cost)
-        logger.info(f"k={k}, WCSS={cost}")
+
+    # Start MLflow tracking for each iteration of k in the elbow method
+    with mlflow.start_run(run_name="Customer_Clustering"):
+        # Iterate through k_values for performance of elbow method
+        for k in k_values:
+            kmeans = KMeans(k=k, seed=42)
+            model = kmeans.fit(df_scaled)
+            cost = model.summary.trainingCost
+            costs.append(cost)
+
+            predictions = model.transform(df_scaled)
+            evaluator = ClusteringEvaluator()
+            silhouette = evaluator.evaluate(predictions)
+
+            mlflow.log_metric("WCSS", cost, step=k)
+            mlflow.log_metric("silhouette_score", silhouette, step=k)
+
+            logger.info(f"k={k}, WCSS={cost}, Silhouette={silhouette}")
 
     # 3. Generate HTML Plot using Plotly
     fig = go.Figure(data=go.Scatter(x=list(k_values), y=costs, mode='lines+markers'))
@@ -98,6 +119,8 @@ def run_final_clustering(df_scaled, optimal_k):
     
     # Add cluster predictions back to the original DF
     clustered_df = model.transform(df_scaled)
+
+    logger.info(f"Clustering complete for k={optimal_k}")
     
     return model, clustered_df
 
@@ -109,17 +132,13 @@ if __name__ == "__main__":
         logger.info(f"Automatically detected Optimal k: {optimal_k}")
         model, results = run_final_clustering(df_scaled, optimal_k)
 
-        # Start MLflow tracking
-        with mlflow.start_run(run_name="Customer_Clustering"):
-            # Log the model
+        with mlflow.start_run(run_name="Customer_Clustering_Final"):
             mlflow.spark.log_model(model, "clustering_model")
-            mlflow.log_param("k", optimal_k)
-            
+            mlflow.log_param("optimal_k", optimal_k)
             evaluator = ClusteringEvaluator()
-            silhouette = evaluator.evaluate(results)
-            mlflow.log_metric("silhouette_score", silhouette)
-            
-            logger.info(f"Clustering complete. Silhouette Score: {silhouette}")
+            final_silhouette = evaluator.evaluate(results)
+            mlflow.log_metric("final_silhouette_score", final_silhouette)
+            logger.info(f"Final model silhouette score: {final_silhouette}")
 
         # Save the full results dataframe (includes RFM, Scaled features, and predictions)
         results.write.mode("overwrite").parquet(

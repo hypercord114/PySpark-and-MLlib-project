@@ -9,6 +9,7 @@ sudo rm -rf logs/
 sudo rm -rf models/
 sudo rm -rf mlflow.db
 sudo rm -rf mlruns/
+sudo rm -rf forecast_data.csv
 
 echo "--- Building Docker Image ---"
 docker build -t rfm-pipeline .
@@ -26,6 +27,7 @@ docker run --rm \
   rfm-pipeline python3 scripts/main_orchestrator.py
 
 echo "--- Pipeline Complete! ---"
+
 # List the generated files for verification
 ls -R data/
 

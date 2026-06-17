@@ -1,17 +1,16 @@
-2026-06-12 16:36:19,631 - INFO - Starting scripts/00_download_and_prep.py...
-2026-06-12 16:37:02,009 - INFO - Finished scripts/00_download_and_prep.py with return code 0
-2026-06-12 16:37:02,009 - INFO - Starting scripts/01_clean_data.py...
-2026-06-12 16:37:38,332 - INFO - Finished scripts/01_clean_data.py with return code 0
-2026-06-12 16:37:38,333 - INFO - Starting scripts/02_engineer.py...
-2026-06-12 16:37:59,093 - INFO - Finished scripts/02_engineer.py with return code 0
-2026-06-12 16:37:59,093 - INFO - Starting scripts/03_cluster.py...
-2026-06-12 16:39:01,641 - INFO - Finished scripts/03_cluster.py with return code 0
-2026-06-12 16:39:01,641 - INFO - Starting scripts/04_analyze_segments.py...
-2026-06-12 16:39:19,150 - INFO - Finished scripts/04_analyze_segments.py with return code 0
-2026-06-12 16:39:19,150 - INFO - Starting scripts/05_train_classification.py...
-2026-06-12 16:41:45,426 - INFO - Finished scripts/05_train_classification.py with return code 0
-2026-06-12 16:41:45,427 - INFO - Starting scripts/06_train_churn.py...
-2026-06-12 16:42:26,597 - INFO - Finished scripts/06_train_churn.py with return code 0
-2026-06-12 16:42:26,598 - INFO - Starting scripts/07_forecast_revenue.py...
-2026-06-12 16:42:42,685 - INFO - Finished scripts/07_forecast_revenue.py with return code 0
-2026-06-12 16:42:42,685 - INFO - Pipeline completed successfully.
+2026-06-17 05:35:01,039 - INFO - Starting task: python3 -u scripts/00_download_and_prep.py
+2026-06-17 05:35:46,534 - INFO - Finished: python3 -u scripts/00_download_and_prep.py
+2026-06-17 05:35:46,535 - INFO - Starting task: python3 -u scripts/01_clean_data.py
+2026-06-17 05:36:21,877 - INFO - Finished: python3 -u scripts/01_clean_data.py
+2026-06-17 05:36:21,878 - INFO - Starting task: python3 -u scripts/02_engineer.py
+2026-06-17 05:36:44,340 - INFO - Finished: python3 -u scripts/02_engineer.py
+2026-06-17 05:36:44,341 - INFO - Starting task: python3 -u scripts/03_cluster.py
+2026-06-17 05:37:57,870 - INFO - Finished: python3 -u scripts/03_cluster.py
+2026-06-17 05:37:57,872 - INFO - Starting task: python3 -u scripts/04_analyze_segments.py
+2026-06-17 05:38:16,086 - INFO - Finished: python3 -u scripts/04_analyze_segments.py
+2026-06-17 05:38:16,087 - INFO - Starting task: python3 -u scripts/05_train_classification.py
+2026-06-17 05:40:57,729 - INFO - Finished: python3 -u scripts/05_train_classification.py
+2026-06-17 05:40:57,730 - INFO - Starting task: python3 -u scripts/06_train_churn.py
+2026-06-17 05:41:47,385 - INFO - Finished: python3 -u scripts/06_train_churn.py
+2026-06-17 05:41:47,385 - INFO - Starting task: python3 -u scripts/07_forecast_revenue.py
+2026-06-17 05:42:06,644 - INFO - Finished: python3 -u scripts/07_forecast_revenue.py
