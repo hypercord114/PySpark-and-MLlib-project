@@ -17,7 +17,7 @@ summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 db_path = os.path.join(root_dir, "mlruns.db")
 
-mlflow.set_tracking_uri(f"sqlite:///{db_path}")
+mlflow.set_tracking_uri(f"sqlite:///{db_path}?mode=ro")
 
 def plot_model_metric(df, metric_name):
 
