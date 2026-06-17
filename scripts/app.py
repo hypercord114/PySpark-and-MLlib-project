@@ -23,7 +23,7 @@ if "STREAMLIT_SERVER_PORT" in os.environ:
     mlflow.set_tracking_uri(f"file://{mlruns_path}")
 else:
     # Use DB locally with Read-Only mode to avoid locks
-    mlflow.set_tracking_uri(f"sqlite:///{db_path}?mode=ro")
+    print("Error")
 
 @st.cache_data
 def get_mlflow_data():
