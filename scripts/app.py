@@ -116,7 +116,7 @@ if os.path.exists(summary_path):
             })
             
             # Show WCSS Curve
-            fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS)", markers=True)
+            fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS) - k=4 calculated by Elbow Method", markers=True)
             fig_wcss.update_layout(template="plotly_dark")
             st.plotly_chart(fig_wcss, use_container_width=True)
             
