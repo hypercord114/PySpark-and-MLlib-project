@@ -16,14 +16,19 @@ summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # --- MLFLOW SETUP ---
-# Detect environment to avoid DB schema verification errors on Streamlit Cloud
-if "STREAMLIT_SERVER_PORT" in os.environ:
-    # Use FileStore for Cloud: explicitly point to the mlruns directory
-    mlruns_path = os.path.join(root_dir, "mlruns")
-    mlflow.set_tracking_uri(f"file://{mlruns_path}")
-else:
-    # Use DB locally with Read-Only mode to avoid locks
-    print("Error")
+# 1. Force override any existing environment variables that might point to a DB
+os.environ["MLFLOW_TRACKING_URI"] = "" 
+
+# 2. Define the exact path to your mlruns folder
+mlruns_path = os.path.join(root_dir, "mlruns")
+
+# 3. Explicitly set the tracking URI to the file:// protocol
+# This tells MLflow to ONLY use the FileStore and NEVER load the SQL driver
+mlflow.set_tracking_uri(f"file://{mlruns_path}")
+
+# 4. Verify we are not using a SQL backend
+# This will print the current URI to your Streamlit logs so you can verify it
+st.write(f"MLflow Tracking URI: {mlflow.get_tracking_uri()}")
 
 @st.cache_data
 def get_mlflow_data():
