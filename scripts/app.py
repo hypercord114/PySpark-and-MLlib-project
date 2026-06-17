@@ -98,32 +98,50 @@ if os.path.exists(summary_path):
         cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
         st.dataframe(runs.drop(columns=cols_to_drop, errors='ignore'))
 
-        # 1. Elbow/Silhouette History Plot
+        # Clustering Run Analysis
         clustering_runs = runs[runs['tags.mlflow.runName'] == 'Customer_Clustering']
         
         if not clustering_runs.empty:
             run_id = clustering_runs.iloc[0]['run_id']
-            
-            # Fetch history using MlflowClient
             client = MlflowClient()
-            history = client.get_metric_history(run_id, 'silhouette_score')
             
-            # Prepare data for plotting
-            history_df = pd.DataFrame([(m.step, m.value) for m in history], columns=['k', 'Silhouette Score'])
+            # --- ELBOW METHOD LINE GRAPHS ---
+            wcss_history = client.get_metric_history(run_id, 'WCSS')
+            silhouette_history = client.get_metric_history(run_id, 'silhouette_score')
             
+            elbow_df = pd.DataFrame({
+                'k': [m.step for m in wcss_history],
+                'WCSS': [m.value for m in wcss_history],
+                'Silhouette': [m.value for m in silhouette_history]
+            })
+
+            st.subheader("Elbow Method: WCSS and Silhouette Score")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                fig_wcss = px.line(elbow_df, x='k', y='WCSS', title="Elbow Curve (WCSS)", markers=True)
+                fig_wcss.update_layout(template="plotly_dark")
+                st.plotly_chart(fig_wcss, use_container_width=True)
+                
+            with col2:
+                fig_sil = px.line(elbow_df, x='k', y='Silhouette', title="Silhouette Score Trend", markers=True)
+                fig_sil.update_layout(template="plotly_dark")
+                st.plotly_chart(fig_sil, use_container_width=True)
+            
+            # --- SILHOUETTE BAR CHART ---
             st.subheader("Silhouette Score by Cluster Count (k)")
-            fig = px.bar(
-                history_df, 
+            fig_bar = px.bar(
+                elbow_df, 
                 x='k', 
-                y='Silhouette Score', 
+                y='Silhouette', 
                 title="Silhouette Scores per Cluster (k)",
-                color='Silhouette Score',
+                color='Silhouette',
                 color_continuous_scale='Blues'
             )
-            fig.update_layout(template="plotly_dark", xaxis=dict(tickmode='linear'))
-            st.plotly_chart(fig, use_container_width=True)
+            fig_bar.update_layout(template="plotly_dark", xaxis=dict(tickmode='linear'))
+            st.plotly_chart(fig_bar, use_container_width=True)
             
-        # 2. Other Metrics Comparison Plots
+        # Comparison Plots
         for metric in ["accuracy", "auc"]:
             fig = plot_model_metric(runs, metric)
             if fig:
