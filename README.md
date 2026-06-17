@@ -26,3 +26,21 @@ the data is then analyzed for a dashboard, saved to disk and displayed on a Stre
 as stated above, i will go on to predict churn and other metrics.
 
 for now, i have achieved the goal of getting this set of scripts streamlined into a unified pipeline.  i still need to wrestle with this, read a bit more about how the cluster process works so i can be more eloquent with description, and smooth out automation hiccups.  for now i'm going to leave this alone.
+
+2026-06-17:  made a mess of the dashboard last night trying to incorporate a histogram of the silhouette scores for all of the k values attempted during elbow method.  i was tired and just throwing random code into the streamlit dashboard script without thinking about it.  i'm not sure what happened...  i had to chase my tail today to get it to work again.
+
+finally fixed and the histogram is incorporated.  i also included the elbow method line graph.
+
+the silhouette score for the clusters is pretty high for k=2 and k=3, around 0.9, but it reduces to around 0.7 for k=4.  nonetheless the elbow method identifies k=4 as the correct number of clusters.  looking at the average monetary spend per cluster in the dashboard, it looks like there is a significant difference in spending between the two champion clusters.  i suppose an executive decision would need to be made about whether or not there is a need to develop tiers of VIP clusters.  if tiers is not an option, i suppose the silhouette scores would indicate that three clusters is better than four.
+
+the revenue forecast seems like it would be helpful.  having spent 16 years at walmart in the meat department, i can see how this prediction would be valuable for ordering product in anticipation of customer demand, both for the weekend and for the first of the month when foodstamps are issued.  this kind of model would quantify how many boxes of family pack chicken breasts, for example, would need to be ordered for those periods.  simple estimation of revenue may be valuable for budgeting purposes.  it would depend on the objective of the organization how this data is used or spun.
+
+the predictive models, the randomforest and decisiontree, as well as churn, would be able to class customers into a cluster on a running basis by assessing their spending habits against legacy data that has been clustered.  in other words, if certain perks are allowed for different clusters, these models could be used to class customers periodically, most likely in a batch assessment on a schedule.  i suppose it would be hard to do this instantaneously with data from a kafka server; it would most likely be done once a month or once a quarter or something like that.
+
+likewise, the churn predictive model should be able to identify customers whose spending habits reveal them as sub-standard customers at risk of not generating consistent revenue.  similar to how the other clusters might be treated, this class may be offered certain benefits to draw them back and derive revenue from them.
+
+ok, happy this is all working again and the metrics are published successfully to the dashboard.
+
+will read about how to apply these predictive models and perhaps attempt to set up some kind of a system to class ongoing sales data...
+
+will also start thinking about the next project.  have noticed in job postings some of the skills that are necessary for data scientist and data engineer roles.  not sure how much i can do on github.  kubernetes and Azure and AWS systems might be hard to develop familiarity with independently.  will keep researching.
