@@ -1,6 +1,4 @@
 import os
-os.environ["MLFLOW_TRACKING_URI"] = "sqlite:///mlflow.db"
-
 import logging
 import json
 import mlflow
@@ -12,17 +10,11 @@ from pyspark.ml.classification import RandomForestClassifier, LogisticRegression
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 from pyspark.ml.tuning import ParamGridBuilder, CrossValidator
 
-print(f"DEBUG: Current Tracking URI is: {mlflow.get_tracking_uri()}")
-print(f"DEBUG: Environment variable is: {os.getenv('MLFLOW_TRACKING_URI')}")
-
 # Paths
 BASE_DIR = "/app"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 LABELED_DATA = os.path.join(BASE_DIR, "data/analytics/labeled_customers.parquet")
 MODEL_DIR = os.path.join(BASE_DIR, "models/segment_classifier")
-
-if os.getenv("MLFLOW_TRACKING_URI"):
-    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
 
 # Ensure directories exist
 os.makedirs(LOG_DIR, exist_ok=True)

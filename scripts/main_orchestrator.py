@@ -2,11 +2,6 @@ import os
 import logging
 import subprocess
 
-# Setup tracking_uri variable and link to environmental variable for all scripts
-tracking_uri = "sqlite:///" + os.path.abspath("mlflow.db")
-env = os.environ.copy()
-env["MLFLOW_TRACKING_URI"] = tracking_uri
-
 # Ensure logs directory exists
 BASE_DIR = "/app"
 
@@ -49,7 +44,7 @@ def run_pipeline():
     for task in tasks:
         logger.info(f"Starting task: {' '.join(task)}")
         try:
-            subprocess.run(task, env=env, check=True)
+            subprocess.run(task, check=True)
             logger.info(f"Finished: {' '.join(task)}")
         except subprocess.CalledProcessError as e:
             logger.error(f"Pipeline failed at {' '.join(task)} with error: {e}")

@@ -1,0 +1,15 @@
+artifact_uri: file:///app/mlruns/0/e0b58120f2574b48a10135d2925bca14/artifacts
+end_time: 1781720816952
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e0b58120f2574b48a10135d2925bca14
+run_name: Customer_Clustering
+run_uuid: e0b58120f2574b48a10135d2925bca14
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781720791277
+status: 3
+tags: []
+user_id: sparkuser

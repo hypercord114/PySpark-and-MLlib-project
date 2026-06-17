@@ -8,6 +8,7 @@ sudo rm -rf data/
 sudo rm -rf logs/
 sudo rm -rf models/
 sudo rm -rf mlflow.db
+sudo rm -rf mlruns.db
 sudo rm -rf mlruns/
 sudo rm -rf forecast_data.csv
 
@@ -33,3 +34,15 @@ ls -R data/
 
 echo "--- Fixing file permissions ---"
 sudo chown -R "$(id -u):$(id -g)" data/
+
+echo "--- Ensuring MLflow is updated ---"
+pip install --upgrade "mlflow>=3.10" > /dev/null
+
+if [ -d "mlruns" ]; then
+    echo "--- Migrating file-based metadata to mlruns.db ---"
+    python3 -m mlflow migrate-filestore --source ./mlruns --target sqlite:///mlruns.db
+else
+    echo "Warning: ./mlruns directory not found, skipping migration."
+fi
+
+echo "--- All tasks finished! ---"

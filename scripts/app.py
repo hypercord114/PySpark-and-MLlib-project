@@ -14,7 +14,7 @@ st.header(" - Unsupervised ML clustering of customers based on transaction histo
 # Paths (adjust to where your script saved the parquet files)
 ANALYTICS_DIR = os.path.join(os.getcwd(), 'data/analytics')
 summary_path = os.path.join(ANALYTICS_DIR, "segment_summary.parquet")
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri("sqlite:///mlruns.db")
 
 def plot_model_metric(df, metric_name):
 

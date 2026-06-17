@@ -1,1 +1,0 @@
-{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1781674834866,"sparkVersion":"4.1.2","uid":"VectorAssembler_a612bdbd8a32","paramMap":{"inputCols":["Recency","Frequency","Monetary"],"outputCol":"features_vector"},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_a612bdbd8a32__output"}}

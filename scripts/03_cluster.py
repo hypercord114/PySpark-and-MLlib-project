@@ -1,6 +1,4 @@
 import os
-os.environ["MLFLOW_TRACKING_URI"] = "sqlite:///mlflow.db"
-
 import logging
 import numpy as np
 import plotly.graph_objects as go
@@ -11,18 +9,11 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
 
-print(f"DEBUG: Current Tracking URI is: {mlflow.get_tracking_uri()}")
-print(f"DEBUG: Environment variable is: {os.getenv('MLFLOW_TRACKING_URI')}")
-
 # Paths
 BASE_DIR = "/app"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 FEATURE_PATH = os.path.join(BASE_DIR, "data/features/rfm_features.parquet")
 CLUSTER_DIR = os.path.join(BASE_DIR, "data/clusters")
-
-if os.getenv("MLFLOW_TRACKING_URI"):
-    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
-
 os.makedirs(CLUSTER_DIR, exist_ok=True)
 os.makedirs(LOG_DIR, exist_ok=True)
 
