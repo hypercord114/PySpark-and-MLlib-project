@@ -51,7 +51,7 @@ def plot_model_metric(df, metric_name):
         chart_df, 
         x='Score', 
         y='run_id', 
-        hover_data=['Model_Label'], 
+        #hover_data=['Model_Label'], 
         orientation='h',
         title=f"Comparison by {metric_name.capitalize()}",
         color='Score',
