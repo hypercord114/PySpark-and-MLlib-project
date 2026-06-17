@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 import mlflow
+from mlflow.tracking import MlflowClient
 import plotly.express as px
 
 # Set page layout
@@ -38,7 +39,6 @@ def plot_model_metric(df, metric_name):
         return None
     
     # Use 'run_id' as the unique identifier for the Y-axis
-    # This prevents grouping different runs under the same 'Model' name
     chart_df = df[['run_id', 'tags.mlflow.runName', col_name]].dropna(subset=[col_name])
     
     # Fallback to run_id if runName is empty
@@ -97,9 +97,12 @@ if os.path.exists(summary_path):
         
         if not clustering_runs.empty:
             run_id = clustering_runs.iloc[0]['run_id']
-            # Fetch history (the "k" iterations logged with steps)
-            history = mlflow.get_metric_history(run_id, 'silhouette_score')
             
+            # Fetch history using MlflowClient
+            client = MlflowClient()
+            history = client.get_metric_history(run_id, 'silhouette_score')
+            
+            # Prepare data for plotting
             history_df = pd.DataFrame([(m.step, m.value) for m in history], columns=['k', 'Silhouette Score'])
             
             st.subheader("Silhouette Score by Cluster Count (k)")
