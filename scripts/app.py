@@ -18,7 +18,7 @@ root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # --- MLFLOW SETUP ---
 # Point directly to the SQLite database in the root repository
 db_path = os.path.join(root_dir, "mlruns.db")
-# Using '?mode=ro' to ensure read-only access, which is required for Streamlit Cloud
+# Using '?mode=ro' ensures read-only access, which is required for Streamlit Cloud
 mlflow.set_tracking_uri(f"sqlite:///{db_path}?mode=ro")
 
 @st.cache_data
@@ -31,16 +31,29 @@ def get_mlflow_data():
         return pd.DataFrame()
 
 def plot_model_metric(df, metric_name):
-    """Plot metrics directly from search_runs DataFrame."""
+    """Plot all available runs for a specific metric."""
     col_name = f"metrics.{metric_name}"
+    
+    # Check if the metric actually exists in the data
     if col_name not in df.columns:
         return None
     
-    chart_df = df[['tags.mlflow.runName', col_name]].dropna()
-    chart_df.columns = ['Model', 'Score']
+    # 1. Filter: Keep only the relevant columns and rows where the metric exists
+    # We include run_id as a fallback label in case runName is missing
+    plot_df = df[['tags.mlflow.runName', 'run_id', col_name]].dropna(subset=[col_name])
     
+    # 2. Assign a 'Model' label: use Run Name if available, otherwise use Run ID
+    plot_df['Model'] = plot_df['tags.mlflow.runName'].fillna(plot_df['run_id'])
+    
+    # 3. Rename metric for chart clarity
+    plot_df = plot_df.rename(columns={col_name: 'Score'})
+    
+    if plot_df.empty:
+        return None
+        
+    # 4. Generate Plot
     fig = px.bar(
-        chart_df, 
+        plot_df, 
         x='Score', 
         y='Model', 
         orientation='h',
@@ -48,7 +61,8 @@ def plot_model_metric(df, metric_name):
         color='Score',
         color_continuous_scale='Blues'
     )
-    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total ascending'})
+    # Order by 'total descending' so top-performing models appear at the top
+    fig.update_layout(template="plotly_dark", yaxis={'categoryorder': 'total descending'})
     return fig
 
 @st.cache_data
@@ -78,11 +92,11 @@ if os.path.exists(summary_path):
     runs = get_mlflow_data()
     
     if not runs.empty:
-        # Display table (drop internal artifacts columns)
+        # Display the full table (drop internal artifacts/history columns)
         cols_to_drop = [col for col in runs.columns if "log-model.history" in col]
         st.dataframe(runs.drop(columns=cols_to_drop, errors='ignore'))
 
-        # Metrics plots
+        # Metrics plots - loops through specified metrics and renders all runs
         for metric in ["silhouette_score", "accuracy", "auc"]:
             fig = plot_model_metric(runs, metric)
             if fig:
