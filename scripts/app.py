@@ -92,7 +92,7 @@ if os.path.exists(summary_path):
     detailed_df = pd.DataFrame(runs)
     
     st.write("### Experiment Data")
-    st.dataframe(all steps)
+    st.dataframe(runs)
 
     # Charts
     st.plotly_chart(plot_model_metric(runs, "silhouette_score"), use_container_width=True)
